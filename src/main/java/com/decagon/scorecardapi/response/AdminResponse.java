@@ -1,5 +1,7 @@
 package com.decagon.scorecardapi.response;
 
+import com.decagon.scorecardapi.model.Admin;
+import com.decagon.scorecardapi.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,14 @@ public class AdminResponse {
     private String squad;
     private String stack;
     private String pod;
-    private String role;
 
+    public AdminResponse(Admin admin) {
+        this.firstName = admin.getFirstName();
+        this.lastName = admin.getLastName();
+        this.email = admin.getEmail();
+        this.squad = String.valueOf(admin.getSquad());
+        this.stack = admin.getStack().getStackName();
+        this.pod = admin.getPod().getPodName();
+
+    }
 }
