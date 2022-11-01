@@ -17,6 +17,7 @@ public class AdminResponse {
     private String stack;
     private String pod;
 
+
     public AdminResponse(Admin admin) {
         this.firstName = admin.getFirstName();
         this.lastName = admin.getLastName();
