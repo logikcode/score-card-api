@@ -18,7 +18,7 @@ public class SquadController {
         this.squadService = squadService;
     }
 
-    @GetMapping("/squads/{offset}/{pageSize}")
+    @GetMapping("/super-admin/squads/{offset}/{pageSize}")
     public Page<Squad> getAllSquads(@PathVariable("offset") int offset,
                                     @PathVariable("pageSize") int pageSize){
         return squadService.getAllSquads(offset, pageSize);
