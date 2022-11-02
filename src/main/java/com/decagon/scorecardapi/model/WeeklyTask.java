@@ -15,10 +15,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeeklyTask {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+public class WeeklyTask extends BaseClass{
+
     private double score;
     private String week;
     private String month;

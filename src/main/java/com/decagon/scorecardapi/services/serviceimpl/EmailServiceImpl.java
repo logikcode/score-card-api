@@ -1,6 +1,6 @@
-package com.decagon.scorecardapi.serviceImpl;
+package com.decagon.scorecardapi.services.serviceimpl;
 
-import com.decagon.scorecardapi.service.EmailService;
+import com.decagon.scorecardapi.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

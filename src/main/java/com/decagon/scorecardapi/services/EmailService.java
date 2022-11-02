@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.service;
+package com.decagon.scorecardapi.services;
 
 
 

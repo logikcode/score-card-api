@@ -1,7 +1,7 @@
 package com.decagon.scorecardapi.enums;
 
 public enum Role {
-    SUPERADMIN,
+    SUPER_ADMIN,
     ADMIN,
     DEV
 
