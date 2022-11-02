@@ -23,7 +23,7 @@ public class Squad {
 
     private String squadName;
     @JsonManagedReference
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "stack_squad", referencedColumnName = "id")
     private List<Stack> stack;
 
