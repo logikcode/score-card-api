@@ -1,5 +1,7 @@
 package com.decagon.scorecardapi.model;
 
+import com.decagon.scorecardapi.enums.Gender;
+import com.decagon.scorecardapi.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +28,14 @@ public class SuperAdmin extends User{
     @JoinColumn(name = "superadmin_pod", referencedColumnName = "id")
     private List<Pod> pod;
 
+
+    public SuperAdmin(String firstName, String lastName, Gender gender, String email, Role role, String password) {
+//        super();
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setGender(gender);
+        this.setEmail(email);
+        this.setRole(role);
+        this.setPassword(password);
+    }
 }
