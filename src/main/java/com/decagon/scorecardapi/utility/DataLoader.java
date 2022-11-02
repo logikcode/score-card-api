@@ -18,9 +18,9 @@ import java.util.List;
 public class DataLoader {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    @Value("{SUPER_PASSWORD}")
+    @Value("${admin.password}")
     private String adminPassword;
-    @Value("{SUPER_EMAIL}")
+    @Value("${super.email}")
     private String adminEmail;
 
     @Bean
@@ -28,7 +28,6 @@ public class DataLoader {
         if (userRepository.findAll().size() == 0) {
             return args -> {
                 SuperAdmin user1 = new SuperAdmin("Chika", "Nwobi", Gender.MALE, adminEmail, Role.SUPER_ADMIN, passwordEncoder.encode(adminPassword));
-
                 userRepository.save(user1);
             };
         }
