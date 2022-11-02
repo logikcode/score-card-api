@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.dto;
+package com.decagon.scorecardapi.dto.responsedto;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.dto;
+package com.decagon.scorecardapi.dto.requestdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,5 @@ import lombok.Setter;
 public class LoginDto {
     private String email;
     private String password;
-
 
 }

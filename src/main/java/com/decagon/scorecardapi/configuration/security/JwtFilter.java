@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.security;
+package com.decagon.scorecardapi.configuration.security;
 
 
 import com.decagon.scorecardapi.exception.AuthorizationException;

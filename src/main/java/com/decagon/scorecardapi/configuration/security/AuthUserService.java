@@ -1,15 +1,14 @@
-package com.decagon.scorecardapi.security;
+package com.decagon.scorecardapi.configuration.security;
 
+import com.decagon.scorecardapi.exception.AccountNotActiveException;
+import com.decagon.scorecardapi.model.CustomUserDetail;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +20,11 @@ public class AuthUserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException(
                 email + " was not found"));
-        List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),user.getPassword(),roles);
+       if(user.getIsAccountActive()) {
+           return new CustomUserDetail(user);
+       }else
+           throw new AccountNotActiveException("User account is not active");
+
     }
 }
 

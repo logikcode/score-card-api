@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.dto;
+package com.decagon.scorecardapi.dto.responsedto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,4 +9,5 @@ public class LoginResponse {
     private Boolean status;
     private String message;
     private String token;
+    private UserDto userDto;
 }
