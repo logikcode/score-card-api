@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender mailSender;
-    @Value("decagonscorecard@gmail.com")
+    @Value("${sender.email:email}")
     private String sender;
 
 
@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
            return true;
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
+            return false;
         }
-        return false;
     }
 }
