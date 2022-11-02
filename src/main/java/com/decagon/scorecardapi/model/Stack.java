@@ -16,10 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Stack {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Stack extends  BaseClass{
     private String stackName;
 
    @JsonManagedReference

@@ -16,10 +16,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pod {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Pod extends BaseClass{
+
     private  String podName;
 
     @JsonManagedReference
