@@ -29,6 +29,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(subject);
             mailSender.send(message);
             log.info("Email sent to %s successfully". formatted(email));
+           return true;
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
