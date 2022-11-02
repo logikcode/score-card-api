@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.dao;
+package com.decagon.scorecardapi.repository;
 
 import com.decagon.scorecardapi.model.Squad;
 import org.springframework.data.domain.Page;
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface SquadDao extends JpaRepository<Squad, Long> {
+public interface SquadRepository extends JpaRepository<Squad, Long> {
 
     @Override
     Page<Squad> findAll(Pageable pageable);
