@@ -1,25 +1,18 @@
 package com.decagon.scorecardapi.dto.responsedto;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class APIResponse {
-    private final boolean success;
-    private final String message;
 
-    public APIResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class APIResponse<T> {
+    private Boolean status;
+    private String message;
+    private T data;
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getTimeStamp(){
-        return LocalDateTime.now().toString();
-    }
 }
