@@ -18,7 +18,7 @@ public class PodController {
 
     @GetMapping(value ="/get-pod/{podId}")
     public ResponseEntity<APIResponse> getPod(@PathVariable(value = "podId")Long id){
-    return  Responder.okay(podService.getPod(id));
+    return  Responder.successful(podService.getPod(id));
     }
 
 }
