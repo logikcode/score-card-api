@@ -27,7 +27,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId) {
         if (Objects.nonNull(userRepository.findByEmail(adminDto.getEmail()))) {
-            throw new CustomException("User already exist");
+            throw new CustomException("User email already exist");
         }
         Pod adminPod = podRepository.findById(podId).orElseThrow();
         Squad adminSquad = squadRepository.findById(squadId).orElseThrow();
@@ -44,5 +44,4 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         admin.setAssignRole(adminDto.getAssignRole());
         return userRepository.save(admin);
     }
-
 }
