@@ -30,7 +30,7 @@ public class DataLoader {
         User user = userRepository.findFirstByRole(Role.SUPER_ADMIN).orElse(null);
         if (user == null) {
             return args -> {
-                SuperAdmin user1 = new SuperAdmin("Chika", "Nwobi", Gender.MALE, adminEmail, Role.SUPER_ADMIN, passwordEncoder.encode(adminPassword),true);
+                SuperAdmin user1 = new SuperAdmin(1L,"Chika", "Nwobi", Gender.MALE, adminEmail, Role.SUPER_ADMIN, passwordEncoder.encode(adminPassword),true);
                 userRepository.save(user1);
             };
         }

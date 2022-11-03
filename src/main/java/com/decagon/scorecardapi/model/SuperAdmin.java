@@ -29,8 +29,9 @@ public class SuperAdmin extends User{
     private List<Pod> pod;
 
 
-    public SuperAdmin(String firstName, String lastName, Gender gender, String email, Role role, String password, Boolean isAccountActive) {
+    public SuperAdmin(Long id, String firstName, String lastName, Gender gender, String email, Role role, String password, Boolean isAccountActive) {
 //        super();
+        this.setId(id);
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setGender(gender);
