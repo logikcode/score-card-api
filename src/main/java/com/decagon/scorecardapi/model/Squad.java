@@ -22,7 +22,7 @@ public class Squad extends BaseClass {
     @JsonManagedReference
     @OneToMany
     @JoinColumn(name = "stack_squad", referencedColumnName = "id")
-    private List<Stack> stack;
+    private List<Stack> stacks;
 
     @JsonManagedReference
     @ManyToMany

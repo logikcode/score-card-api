@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SquadRepository  extends JpaRepository<Squad, Long> {
     Squad findBySquadName(String squadName);
+    boolean existsBySquadName(String squadName);
 }
