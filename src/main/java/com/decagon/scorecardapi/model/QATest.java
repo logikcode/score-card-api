@@ -18,7 +18,7 @@ import java.util.List;
 public class QATest extends BaseClass{
     private double score;
     private String week;
-    private String month;
+    private String mont;
 
     @JsonManagedReference
     @ManyToMany
