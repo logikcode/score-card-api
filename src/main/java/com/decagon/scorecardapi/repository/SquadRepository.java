@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SquadRepository extends JpaRepository<Squad, Long> {
 
-    @Override
     Page<Squad> findAll(Pageable pageable);
 }
