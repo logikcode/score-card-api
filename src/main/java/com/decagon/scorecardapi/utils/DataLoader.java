@@ -41,7 +41,7 @@ public class DataLoader implements CommandLineRunner {
         logger.info("Loading Sample Data");
         // create 10 SuperAdmins users
         AtomicInteger gen = new AtomicInteger(1);
-       List<SuperAdmin> superAdmins = IntStream.rangeClosed(1, 20)
+       List<SuperAdmin> superAdmins = IntStream.rangeClosed(1, 5)
                         .mapToObj(i -> {
 
                             String firstName = faker.name().firstName();
@@ -63,6 +63,6 @@ public class DataLoader implements CommandLineRunner {
                             superAmin.setUpdateDate(updatedAt);
                             return superAmin;
                         }).toList();
-                usersRepository.saveAll(superAdmins);
+               usersRepository.saveAll(superAdmins);
     }
 }
