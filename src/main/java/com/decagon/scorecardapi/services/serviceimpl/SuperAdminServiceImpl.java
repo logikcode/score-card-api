@@ -1,7 +1,7 @@
 package com.decagon.scorecardapi.services.serviceimpl;
 
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.repository.SquadRepository;
@@ -23,7 +23,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public String createSquad(SquadDto squadDto) {
         if (squadRepository.existsBySquadName(squadDto.getSquadName())) {
-            throw new CustomException("Squad already exist");
+            throw new SquadAlreadyExistException("Squad already exist");
         }
         Squad newSquad = new Squad();
         List<Stack> stacks= new ArrayList<>();
