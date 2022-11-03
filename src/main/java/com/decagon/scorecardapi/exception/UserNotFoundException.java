@@ -1,12 +1,9 @@
 package com.decagon.scorecardapi.exception;
 
-import lombok.Getter;
+public class UserNotFoundException  extends  RuntimeException{
 
-@Getter
-public class UserNotFoundException extends RuntimeException{
-    private final  String message;
-
-    public UserNotFoundException(String message) {
-        this.message = message;
+    public UserNotFoundException(String message){
+        super(message);
     }
+
 }

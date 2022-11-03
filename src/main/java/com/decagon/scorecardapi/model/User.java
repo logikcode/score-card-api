@@ -3,9 +3,6 @@ package com.decagon.scorecardapi.model;
 import com.decagon.scorecardapi.enums.Gender;
 import com.decagon.scorecardapi.enums.Role;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,10 +15,7 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseClass implements Serializable {
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
@@ -31,9 +25,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String password;
-    @CreationTimestamp
-    private LocalDateTime createDate;
-    @UpdateTimestamp
-    private LocalDateTime updateDate;
+    private Boolean isAccountActive;
+
 
 }

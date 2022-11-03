@@ -15,10 +15,8 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssessmentTest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+public class AssessmentTest extends BaseClass{
+
     private double score;
     private String week;
     private String month;
