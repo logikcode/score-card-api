@@ -20,9 +20,9 @@ import java.util.Optional;
 public class DataLoader {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    @Value("${admin.password}")
+    @Value("${admin.password:password}")
     private String adminPassword;
-    @Value("${super.email}")
+    @Value("${super.email:email}")
     private String adminEmail;
 
     @Bean
