@@ -36,7 +36,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         admin.setFirstName(adminDto.getFirstName());
         admin.setLastName(adminDto.getLastName());
         admin.setEmail(adminDto.getEmail());
-        admin.setRole(Role.ADMIN);
+        admin.setRole(adminDto.getRole());
         admin.setPod(adminPod);
         admin.setSquad(adminSquad);
         admin.setStack(adminStack);
