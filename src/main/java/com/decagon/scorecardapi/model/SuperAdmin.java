@@ -29,7 +29,7 @@ public class SuperAdmin extends User{
     private List<Pod> pod;
 
 
-    public SuperAdmin(String firstName, String lastName, Gender gender, String email, Role role, String password) {
+    public SuperAdmin(String firstName, String lastName, Gender gender, String email, Role role, String password, Boolean isAccountActive) {
 //        super();
         this.setFirstName(firstName);
         this.setLastName(lastName);
@@ -37,5 +37,6 @@ public class SuperAdmin extends User{
         this.setEmail(email);
         this.setRole(role);
         this.setPassword(password);
+        this.setIsAccountActive(isAccountActive);
     }
 }
