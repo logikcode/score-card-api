@@ -2,7 +2,6 @@ package com.decagon.scorecardapi.serviceImp;
 
 import com.decagon.scorecardapi.exception.PodNotFoundException;
 import com.decagon.scorecardapi.model.Pod;
-import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.service.PodService;
 import org.springframework.stereotype.Service;
 
