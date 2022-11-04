@@ -15,13 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Algorithm {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+public class Algorithm extends BaseClass{
+
     private double score;
     private String week;
-    private String month;
+    private String mont;
 
     @JsonManagedReference
     @ManyToMany

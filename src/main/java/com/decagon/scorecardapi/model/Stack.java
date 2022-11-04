@@ -16,12 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Stack {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Stack extends  BaseClass{
     private String stackName;
-
     @JsonBackReference
     @OneToMany(mappedBy = "stack")
     private List<Pod> pods = new ArrayList<>();
