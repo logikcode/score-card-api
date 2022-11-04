@@ -11,4 +11,5 @@ public class ScoreCardApiApplication {
         SpringApplication.run(ScoreCardApiApplication.class, args);
     }
 
+
 }
