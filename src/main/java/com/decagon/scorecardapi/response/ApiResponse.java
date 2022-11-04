@@ -13,6 +13,4 @@ public class ApiResponse <T>{
     private String message;
     private LocalDateTime time;
     private T data;
-
-
 }
