@@ -15,10 +15,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Squad {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Squad extends BaseClass {
 
     private String squadName;
     @JsonManagedReference

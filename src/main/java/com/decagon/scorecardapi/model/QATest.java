@@ -15,13 +15,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QATest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+public class QATest extends BaseClass{
     private double score;
     private String week;
-    private String month;
+    private String mont;
 
     @JsonManagedReference
     @ManyToMany
