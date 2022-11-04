@@ -14,12 +14,8 @@ import org.springframework.stereotype.Service;
 public class SquadServiceImpl implements SquadService {
     private final SquadRepository squadRepository;
     @Override
-    public AllSquadResponse getAllSquads(int offset, int pageSize) {
+    public Page<Squad> getAllSquads(int offset, int pageSize) {
         Pageable pageable = PageRequest.of(offset, pageSize);
-        Page<Squad>  squads = squadRepository.findAll(pageable);
-        AllSquadResponse allSquadResponse = AllSquadResponse.builder()
-                .squads(squads)
-                .build();
-        return  allSquadResponse;
+        return squadRepository.findAll(pageable);
     }
 }

@@ -5,5 +5,5 @@ import com.decagon.scorecardapi.model.Squad;
 import org.springframework.data.domain.Page;
 
 public interface SquadService {
-    AllSquadResponse getAllSquads(int offset, int pageSize);
+    Page<Squad> getAllSquads(int offset, int pageSize);
 }
