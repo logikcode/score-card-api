@@ -2,12 +2,17 @@ package com.decagon.scorecardapi.controller;
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.services.SuperAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.decagon.scorecardapi.model.User;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,4 +30,10 @@ public class SuperAdminController {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/create-squad")
+    public ResponseEntity<APIResponse<String>> createSquad (@RequestBody SquadDto squadDto) {
+
+        return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
+    }
+
 }
