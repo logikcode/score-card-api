@@ -4,6 +4,7 @@ import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.services.EmailService;
 import com.decagon.scorecardapi.services.SuperAdminService;
+import com.decagon.scorecardapi.utility.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         if (Objects.nonNull(userRepository.findByEmail(adminDto.getEmail()))) {
             throw new CustomException("User email already exist");
         }
+        StringBuilder password = PasswordGenerator.generatePassword(10);
         Pod adminPod = podRepository.findById(podId).orElseThrow();
         Squad adminSquad = squadRepository.findById(squadId).orElseThrow();
         Stack adminStack = stackRepository.findById(stackId).orElseThrow();
@@ -42,9 +44,9 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         admin.setPod(adminPod);
         admin.setSquad(adminSquad);
         admin.setStack(adminStack);
-        admin.setPassword(passwordEncoder.encode(adminDto.getPassword()));
+        admin.setPassword(passwordEncoder.encode(password));
         admin.setAssignRole(adminDto.getAssignRole());
-        emailService.sendEmail("ScoreCard login details "+ "password: "+ admin.getPassword() + "\n" + "Email: "+ admin.getEmail() + "\n",
+        emailService.sendEmail("ScoreCard login details "+ "password: "+ password+ " Email: "+ admin.getEmail() + "\n",
                 "You have been added as an admin", admin.getEmail());
         return userRepository.save(admin);
     }
