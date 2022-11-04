@@ -13,15 +13,16 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "squad")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Squad extends BaseClass {
 
     private String squadName;
     @JsonManagedReference
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "stack_squad", referencedColumnName = "id")
-    private List<Stack> stack;
+    private List<Stack> stacks;
 
     @JsonManagedReference
     @ManyToMany

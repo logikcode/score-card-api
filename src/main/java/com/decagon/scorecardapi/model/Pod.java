@@ -21,14 +21,14 @@ public class Pod extends BaseClass{
     private  String podName;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "pod")
+    @ManyToMany(mappedBy = "pods")
     private List<Admin> admin = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "pod")
     private  List<Decadev> decadev = new ArrayList<>();
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "stack_pod", referencedColumnName = "id")
     private Stack stack;
