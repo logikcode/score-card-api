@@ -12,3 +12,4 @@ public class SquadDto {
     private String squadName;
     private List<String> stackNames;
 }
+
