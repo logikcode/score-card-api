@@ -1,11 +1,13 @@
 package com.decagon.scorecardapi.service;
 
 import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.model.Stack;
+import com.decagon.scorecardapi.model.StackTemplate;
 
 public interface StackService {
 
-      Stack createStack( StackDto stackDto);
+      APIResponse <StackTemplate> createStack(StackDto stackDto);
 
-      Stack checkStack(String stackName);
+//      boolean checkStack(String stackName);
 }
