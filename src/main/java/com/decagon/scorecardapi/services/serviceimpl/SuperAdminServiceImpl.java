@@ -1,9 +1,12 @@
 package com.decagon.scorecardapi.services.serviceimpl;
 
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.exception.PodNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
+import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.services.SuperAdminService;
@@ -19,6 +22,8 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     private final SquadRepository squadRepository;
     private final StackRepository stackRepository;
+
+    private final PodRepository podRepository;
 
     @Override
     public String createSquad(SquadDto squadDto) {
@@ -40,6 +45,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         squadRepository.save(newSquad);
         return "Squad created successfully";
 
+    }
+
+    @Override
+    public Pod getPod(long id){
+
+        return podRepository.findById(id).orElseThrow(()-> new PodNotFoundException(String.format("Pod with id %d not found",id)));
     }
 
 }
