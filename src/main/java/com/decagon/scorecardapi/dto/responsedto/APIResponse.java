@@ -2,13 +2,15 @@ package com.decagon.scorecardapi.dto.responsedto;
 
 import java.time.LocalDateTime;
 
-public class APIResponse {
+public class APIResponse <T>{
     private final boolean success;
     private final String message;
+    private T data;
 
     public APIResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
+        this.data=data;
     }
 
     public boolean isSuccess() {

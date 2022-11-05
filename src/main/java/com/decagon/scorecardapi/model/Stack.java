@@ -18,7 +18,8 @@ import java.util.List;
 @Setter
 public class Stack extends  BaseClass{
     private String stackName;
-    @JsonBackReference
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "stack")
     private List<Pod> pods = new ArrayList<>();
 
@@ -27,12 +28,12 @@ public class Stack extends  BaseClass{
     private List<Decadev> decadev = new ArrayList<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "stack")
+    @ManyToMany(mappedBy = "stacks")
     private List<Admin> admin = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "stack")
-    private List<Squad> squad = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Squad squad ;
 
 
 
