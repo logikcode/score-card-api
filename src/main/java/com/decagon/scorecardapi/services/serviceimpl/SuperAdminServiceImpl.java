@@ -4,6 +4,7 @@ package com.decagon.scorecardapi.services.serviceimpl;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.response.ApiResponse;
@@ -90,7 +91,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public APIResponse getAdmin(Long id) {
 
-        User admin = userRepository.findById(id).orElseThrow(()-> new CustomException("admin not found"));
+        User admin = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("admin not found"));
         if(admin.getRole().equals(Role.ADMIN)){
             return new APIResponse<>(true,"Successfully found an admin",admin);
 
