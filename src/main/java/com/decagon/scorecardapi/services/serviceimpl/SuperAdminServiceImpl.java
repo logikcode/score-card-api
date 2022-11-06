@@ -1,13 +1,18 @@
 package com.decagon.scorecardapi.services.serviceimpl;
 
+
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.services.EmailService;
+
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
+
+import com.decagon.scorecardapi.repository.SquadRepository;
+
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.services.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
@@ -23,13 +28,18 @@ import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SuperAdminServiceImpl implements SuperAdminService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+
+
     private final SquadRepository squadRepository;
     private final StackRepository stackRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
     @Override
@@ -50,6 +60,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return userRepository.save(admin);
     }
     @Override
+
     public String createSquad(SquadDto squadDto) {
         if (squadRepository.existsBySquadName(squadDto.getSquadName())) {
             throw new SquadAlreadyExistException("Squad already exist");
@@ -70,4 +81,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return "Squad created successfully";
 
     }
+
+
 }
+
