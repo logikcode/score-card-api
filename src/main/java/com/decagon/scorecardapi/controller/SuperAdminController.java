@@ -3,6 +3,7 @@ package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.response.ApiResponse;
 import com.decagon.scorecardapi.services.SuperAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,11 @@ public class SuperAdminController {
 
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
+
+    @GetMapping("/get-admin{name}")
+    public ResponseEntity<APIResponse> getAdmin(@PathVariable (value = "name")String name){
+        return new ResponseEntity<>(superAdminService.getAdmin(name),HttpStatus.OK);
+    }
+
 
 }

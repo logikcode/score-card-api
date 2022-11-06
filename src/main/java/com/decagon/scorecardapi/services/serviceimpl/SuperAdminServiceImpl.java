@@ -1,8 +1,11 @@
 package com.decagon.scorecardapi.services.serviceimpl;
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
+import com.decagon.scorecardapi.response.ApiResponse;
 import com.decagon.scorecardapi.services.EmailService;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
@@ -18,10 +21,12 @@ import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +74,16 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         squadRepository.save(newSquad);
         return "Squad created successfully";
 
+    }
+
+    @Override
+    public APIResponse getAdmin(String name) {
+
+        User admin = userRepository.findByFirstNameIgnoreCase(name).orElseThrow(()-> new CustomException("admin not found"));
+        if(admin.getRole().equals(Role.ADMIN)){
+            return new APIResponse<>(true,"Successfully found an admin",admin);
+
+        }
+        return new APIResponse<>(true,"This person is not an admin" ,admin);
     }
 }
