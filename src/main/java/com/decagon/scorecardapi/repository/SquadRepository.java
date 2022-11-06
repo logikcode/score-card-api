@@ -1,3 +1,4 @@
+
 package com.decagon.scorecardapi.repository;
 
 import com.decagon.scorecardapi.model.Squad;

@@ -1,3 +1,5 @@
+
+
 package com.decagon.scorecardapi.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;

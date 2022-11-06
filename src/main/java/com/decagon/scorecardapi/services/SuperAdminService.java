@@ -1,5 +1,11 @@
 package com.decagon.scorecardapi.services;
 
+
+import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import org.springframework.stereotype.Service;
+
+
+
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -14,3 +20,4 @@ public interface SuperAdminService {
 
     APIResponse getAdmin(String name);
 }
+
