@@ -43,9 +43,9 @@ public class SuperAdminController {
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-admin{name}")
-    public ResponseEntity<APIResponse> getAdmin(@PathVariable (value = "name")String name){
-        return new ResponseEntity<>(superAdminService.getAdmin(name),HttpStatus.OK);
+    @GetMapping("/get-admin{id}")
+    public ResponseEntity<APIResponse> getAdmin(@PathVariable (value = "id")Long id){
+        return new ResponseEntity<>(superAdminService.getAdmin(id),HttpStatus.OK);
     }
 
 

@@ -88,9 +88,9 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
-    public APIResponse getAdmin(String name) {
+    public APIResponse getAdmin(Long id) {
 
-        User admin = userRepository.findByFirstNameIgnoreCase(name).orElseThrow(()-> new CustomException("admin not found"));
+        User admin = userRepository.findById(id).orElseThrow(()-> new CustomException("admin not found"));
         if(admin.getRole().equals(Role.ADMIN)){
             return new APIResponse<>(true,"Successfully found an admin",admin);
 

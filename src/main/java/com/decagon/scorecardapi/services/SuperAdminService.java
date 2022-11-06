@@ -18,6 +18,6 @@ public interface SuperAdminService {
 
     String createSquad(SquadDto squadDto);
 
-    APIResponse getAdmin(String name);
+    APIResponse getAdmin(Long id);
 }
 
