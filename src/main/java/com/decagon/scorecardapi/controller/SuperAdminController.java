@@ -46,7 +46,7 @@ public class SuperAdminController {
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
                                                     @PathVariable("pageSize") int pageSize){
         Page<Squad> squads = superAdminService.getAllSquads(offset, pageSize);
-        return  new ResponseEntity<>(squads, HttpStatus.FOUND);
+        return  new ResponseEntity<>(squads, HttpStatus.OK);
     }
 }
 
