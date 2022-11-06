@@ -1,3 +1,5 @@
+
+
 package com.decagon.scorecardapi.model;
 
 import lombok.AllArgsConstructor;

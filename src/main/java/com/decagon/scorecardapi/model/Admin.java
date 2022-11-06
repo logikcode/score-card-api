@@ -19,15 +19,15 @@ public class Admin extends User{
     private AssignRole assignRole;
 
     @JsonManagedReference
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "admin_squad", referencedColumnName = "id")
-    private Squad squad;
+    private List<Squad> squads;
     @JsonManagedReference
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "stack_admin",referencedColumnName = "id")
-    private Stack stack;
+    private List<Stack> stacks;
     @JsonBackReference
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "admin_pod",referencedColumnName = "id")
-    private Pod pod;
+    private List<Pod> pods;
 }
