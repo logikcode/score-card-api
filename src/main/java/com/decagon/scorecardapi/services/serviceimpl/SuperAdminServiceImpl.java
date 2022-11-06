@@ -2,34 +2,29 @@ package com.decagon.scorecardapi.services.serviceimpl;
 
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
-import com.decagon.scorecardapi.repository.PodRepository;
-import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.services.EmailService;
-
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
-
+import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
-
 import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
+import com.decagon.scorecardapi.services.EmailService;
 import com.decagon.scorecardapi.services.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.decagon.scorecardapi.exception.CustomException;
-import com.decagon.scorecardapi.model.*;
-import com.decagon.scorecardapi.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,6 +77,10 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     }
 
-
+    @Override
+    public Page<Squad> getAllSquads(int offset, int pageSize) {
+        Pageable pageable = PageRequest.of(offset, pageSize);
+        return squadRepository.findAll(pageable);
+    }
 }
 
