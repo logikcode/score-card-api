@@ -8,6 +8,7 @@ import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Squad;
+import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
@@ -20,14 +21,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SuperAdminController {
 
-    private  final SuperAdminService superAdminService;
+    //private  final SuperAdminService superAdminService;
 
+    private final SuperAdminService superAdminService;
     private final SquadImpl squadImpl;
     private final AdminService adminService;
     @GetMapping("/pods")
@@ -85,6 +88,7 @@ public class SuperAdminController {
         return  new ResponseEntity<>(squads, HttpStatus.OK);
     }
 
+
     @GetMapping("/admins")
     public ResponseEntity<?> getAllAdmin(){
         List<AdminResponse> admins = adminService.getAllAdmin();
@@ -94,8 +98,18 @@ public class SuperAdminController {
 
     @PutMapping("/update-stack/{stackId}")
     public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,
-                                                            @PathVariable Long stackId){
-        return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
+                                                            @PathVariable Long stackId) {
+        return new ResponseEntity<>(superAdminService.updateStack(stackDto, stackId), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/get-stack/{stackId}")
+    public ResponseEntity<?> getStackById(@PathVariable("stackId") Long stackId){
+        Optional<Stack> stack = superAdminService.getStackUsingId(stackId);
+        if (stack.isEmpty()) {
+            return new ResponseEntity<>(new APIResponse<>(false, "No Stack Found", null), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new APIResponse<>(true,"Success", stack.get()), HttpStatus.OK);
     }
     @PutMapping("/update-admin/{adminId}")
     public ResponseEntity<APIResponse<?>> updateAdmin(@RequestBody AdminDto adminDto, @PathVariable("adminId") Long adminId) {

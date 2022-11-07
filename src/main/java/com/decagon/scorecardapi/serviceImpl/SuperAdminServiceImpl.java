@@ -128,6 +128,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         stackRepository.save(stack);
 
         return new APIResponse<>(true, "Stack Updated Successfully");
+
+    }
+
+    public Optional<Stack> getStackUsingId(Long id) {
+        return  stackRepository.findById(id);
     }
 
     @Override
