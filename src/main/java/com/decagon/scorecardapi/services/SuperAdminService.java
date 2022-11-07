@@ -20,7 +20,6 @@ public interface SuperAdminService {
 
     Page<Squad> getAllSquads(int offset, int pageSize);
 
-    String createSquad (SquadDto squadDto);
 
     Pod getPod(long id);
 }
