@@ -1,7 +1,7 @@
 package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
-import com.decagon.scorecardapi.services.PodService;
+import com.decagon.scorecardapi.service.PodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
