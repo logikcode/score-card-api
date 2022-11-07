@@ -19,6 +19,7 @@ import java.util.List;
 public class Stack extends  BaseClass{
     private String stackName;
 
+
    @JsonManagedReference
     @OneToMany(mappedBy = "stack")
     private List<Pod> pods = new ArrayList<>();
