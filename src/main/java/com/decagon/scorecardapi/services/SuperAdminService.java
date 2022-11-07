@@ -14,7 +14,7 @@ public interface SuperAdminService {
 
     List<Pod> listOfPods();
 
-    void removeAdminById(Long id);
+    String removeAdminById(Long id);
 
     User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId);
 

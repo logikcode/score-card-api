@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -43,8 +44,16 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
-    public void removeAdminById(Long id) {
+    public String removeAdminById(Long id) {
+        if(userRepository.findById(id).isEmpty()) {
+//            return "user not found";
+            throw new CustomException("User not found");
+        }
+        else {
         userRepository.deleteById(id);
+        return "Admin deleted successfully";
+        }
+
     }
 
     @Override

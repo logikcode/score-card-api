@@ -29,9 +29,12 @@ public class SuperAdminController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteAdmin(@PathVariable("id") Long id){
-        superAdminService.removeAdminById(id);
-        return "Admin has been deleted successfully";
+    public ResponseEntity<APIResponse> deleteAdmin(@PathVariable("id") Long id){
+        try{
+             return new ResponseEntity<>(new APIResponse<>(true, "Admin deleted successfully", superAdminService.removeAdminById(id)), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(new APIResponse(false,"User not found",null),HttpStatus.BAD_REQUEST);
+        }
     }
 
 
@@ -39,7 +42,7 @@ public class SuperAdminController {
     public ResponseEntity<APIResponse<?>> createAdmin(@RequestBody AdminDto adminDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
         try {
             User admin = superAdminService.CreateAdmin(adminDto, podId, stackId, squadId);
-            return new ResponseEntity(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
+            return new ResponseEntity<>(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
