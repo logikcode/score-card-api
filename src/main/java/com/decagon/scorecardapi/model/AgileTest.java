@@ -1,3 +1,5 @@
+
+
 package com.decagon.scorecardapi.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -19,7 +21,7 @@ public class AgileTest extends BaseClass{
 
     private double score;
     private String week;
-    private String month;
+    private String mont;
 
     @JsonManagedReference
     @ManyToMany
