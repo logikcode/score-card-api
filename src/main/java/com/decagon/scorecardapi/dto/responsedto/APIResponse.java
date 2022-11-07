@@ -2,6 +2,7 @@ package com.decagon.scorecardapi.dto.responsedto;
 
 import java.time.LocalDateTime;
 
+
 public class APIResponse<T> {
     private final boolean success;
     private final String message;
@@ -17,6 +18,7 @@ public class APIResponse<T> {
         this.success = success;
         this.message = message;
     }
+
 
     public T getData() {
         return data;
