@@ -3,6 +3,7 @@ package com.decagon.scorecardapi.services.serviceimpl;
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.model.Admin;
@@ -82,5 +83,25 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         Pageable pageable = PageRequest.of(offset, pageSize);
         return squadRepository.findAll(pageable);
     }
+
+//    @Override
+//    public List<Stack> getAllStacks(Long squadId) {
+//
+//        return stackRepository.findAllBySquadId(squadId);
+//
+//    }
+
+    public List<StackResponseDto> getDetailsOfAllStacks(Long squadId) {
+        List<Stack> stacks = stackRepository.findAllStackBySquadId(squadId);
+        List<StackResponseDto> stackResponseDtos = new ArrayList<>();
+        for (Stack stack : stacks){
+            StackResponseDto stackResponseDto = new StackResponseDto();
+            stackResponseDto.setStackName(stack.getStackName());
+            stackResponseDto.setPodCount(stack.getPods().size());
+            stackResponseDtos.add(stackResponseDto);
+        }
+        return stackResponseDtos;
+    }
+
 }
 

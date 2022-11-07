@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PodRepository extends JpaRepository<Pod, Long> {
+//    Integer countByStackId(Long stackId);
 }
