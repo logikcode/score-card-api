@@ -19,7 +19,7 @@ public class AssessmentTest extends BaseClass{
 
     private double score;
     private String week;
-    private String month;
+    private String mont;
 
     @JsonManagedReference
     @ManyToMany

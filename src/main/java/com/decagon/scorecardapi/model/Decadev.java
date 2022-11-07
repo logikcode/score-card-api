@@ -19,11 +19,11 @@ public class Decadev extends User{
 
     private String decadevId;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "decadev_squad", referencedColumnName = "id")
     private Squad squad;
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "decadev_stack", referencedColumnName = "id")
     private Stack stack;
