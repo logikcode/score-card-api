@@ -8,7 +8,7 @@ import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
-import com.decagon.scorecardapi.services.SuperAdminService;
+import com.decagon.scorecardapi.service.SuperAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

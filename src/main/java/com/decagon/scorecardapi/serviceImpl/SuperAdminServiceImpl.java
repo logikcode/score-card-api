@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.services.serviceimpl;
+package com.decagon.scorecardapi.serviceImpl;
 
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
@@ -12,8 +12,8 @@ import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.UserRepository;
-import com.decagon.scorecardapi.services.EmailService;
-import com.decagon.scorecardapi.services.SuperAdminService;
+import com.decagon.scorecardapi.service.EmailService;
+import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

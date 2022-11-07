@@ -2,7 +2,7 @@ package com.decagon.scorecardapi.controller;
 
 import com.decagon.scorecardapi.dto.requestdto.LoginDto;
 import com.decagon.scorecardapi.dto.responsedto.LoginResponse;
-import com.decagon.scorecardapi.services.AuthService;
+import com.decagon.scorecardapi.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
