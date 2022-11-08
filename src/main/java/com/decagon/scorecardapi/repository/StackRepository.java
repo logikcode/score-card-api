@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface StackRepository extends JpaRepository<Stack, Long> {
-//    List<Stack> findAllBySquadId(Long squadId);
-//    List<Long> findAllStackIdBySquadId(Long squadId);
     List<Stack> findAllStackBySquadId(Long squadId);
+
+    Stack findByStackName(String stackName);
 
 
 

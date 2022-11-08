@@ -1,6 +1,7 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -10,12 +11,12 @@ import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import com.decagon.scorecardapi.service.SuperAdminService;
+import com.decagon.scorecardapi.serviceImpl.SquadImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -25,6 +26,11 @@ import java.util.List;
 public class SuperAdminController {
 
     private final SuperAdminService superAdminService;
+
+
+    private final SquadImpl squadImpl;
+
+
     private final AdminService adminService;
 
     @PostMapping("/create-admin/{squadId}/{stackId}/{podId}")
@@ -37,11 +43,27 @@ public class SuperAdminController {
         }
     }
 
+
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad(@RequestBody SquadDto squadDto) {
 
         return new ResponseEntity<>(new APIResponse<>(true, superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
+
+
+    @PostMapping("/get-squad/{id}")
+    public ResponseEntity<APIResponse>getSquad(@PathVariable Long id) {
+        return new ResponseEntity<>(new APIResponse<>(true, "Squad found", squadImpl.getSquad(id)), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-admin{id}")
+    public ResponseEntity<APIResponse> getAdmin(@PathVariable (value = "id")Long id){
+        return new ResponseEntity<>(superAdminService.getAdmin(id),HttpStatus.OK);
+
+    }
+
+
+
 
     @GetMapping("/squads/{offset}/{pageSize}")
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
@@ -49,13 +71,6 @@ public class SuperAdminController {
         Page<Squad> squads = superAdminService.getAllSquads(offset, pageSize);
         return new ResponseEntity<>(squads, HttpStatus.OK);
     }
-
-
-//    @GetMapping("/{squadId}/stacks")
-//    public ResponseEntity<List<Stack>> getAllStacks(@PathVariable("squadId") Long squadId){
-//        List<Stack> stacks = superAdminService.getAllStacks(squadId);
-//        return  new ResponseEntity<>(stacks, HttpStatus.OK);
-//    }
 
     @GetMapping("/{squadId}/stacks")
     public ResponseEntity<List<StackResponseDto>> getDetailsOfAllStacks(@PathVariable("squadId") Long squadId) {
@@ -69,5 +84,13 @@ public class SuperAdminController {
         return new ResponseEntity<>(admins, HttpStatus.OK);
 
     }
+
+
+    @PutMapping("/update-stack/{stackId}")
+    public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,
+                                                            @PathVariable Long stackId){
+        return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
+    }
 }
+
 
