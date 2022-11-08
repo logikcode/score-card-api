@@ -7,7 +7,9 @@ import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
-import com.decagon.scorecardapi.services.SuperAdminService;
+import com.decagon.scorecardapi.response.AdminResponse;
+import com.decagon.scorecardapi.service.AdminService;
+import com.decagon.scorecardapi.service.SuperAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.List;
 public class SuperAdminController {
 
     private  final SuperAdminService superAdminService;
+    private final AdminService adminService;
     @GetMapping("/pods")
     public ResponseEntity<List<Pod>>getAllPods(){
         List<Pod>allPods = superAdminService.listOfPods();
@@ -59,6 +62,12 @@ public class SuperAdminController {
                                                     @PathVariable("pageSize") int pageSize){
         Page<Squad> squads = superAdminService.getAllSquads(offset, pageSize);
         return  new ResponseEntity<>(squads, HttpStatus.OK);
+    }
+
+    @GetMapping("/admins")
+    public ResponseEntity<?> getAllAdmin(){
+        List<AdminResponse> admins = adminService.getAllAdmin();
+        return new ResponseEntity<>(admins, HttpStatus.OK);
     }
 }
 

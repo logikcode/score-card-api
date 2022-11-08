@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.services.serviceimpl;
+package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Stack;
@@ -13,14 +13,13 @@ import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.services.EmailService;
-import com.decagon.scorecardapi.services.SuperAdminService;
+import com.decagon.scorecardapi.service.EmailService;
+import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -46,7 +45,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public String removeAdminById(Long id) {
         if(userRepository.findById(id).isEmpty()) {
-//            return "user not found";
             throw new CustomException("User not found");
         }
         else {

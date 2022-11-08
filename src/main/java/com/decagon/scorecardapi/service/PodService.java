@@ -1,6 +1,6 @@
 
 
-package com.decagon.scorecardapi.services;
+package com.decagon.scorecardapi.service;
 
 import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
