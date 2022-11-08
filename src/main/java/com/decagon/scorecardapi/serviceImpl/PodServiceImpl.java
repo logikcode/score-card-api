@@ -1,7 +1,7 @@
 package com.decagon.scorecardapi.serviceImpl;
 import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
-import com.decagon.scorecardapi.exceptions.ResourceNotFoundException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Stack;
