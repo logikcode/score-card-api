@@ -1,5 +1,4 @@
 package com.decagon.scorecardapi.model;
-
 import com.decagon.scorecardapi.enums.AssignRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
