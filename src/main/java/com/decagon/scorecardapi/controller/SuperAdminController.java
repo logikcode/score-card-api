@@ -5,11 +5,11 @@ import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-<<<<<<< HEAD
+
 import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
-=======
+
 import com.decagon.scorecardapi.model.Pod;
->>>>>>> 75e518e0c89bab63606029ab3c84deadd065d2ef
+
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.response.AdminResponse;
