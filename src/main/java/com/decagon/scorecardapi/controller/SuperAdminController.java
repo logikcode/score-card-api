@@ -1,6 +1,7 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -10,6 +11,7 @@ import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import com.decagon.scorecardapi.service.SuperAdminService;
+import com.decagon.scorecardapi.serviceImpl.SquadImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ import java.util.List;
 public class SuperAdminController {
 
     private  final SuperAdminService superAdminService;
+
+    private final SquadImpl squadImpl;
     private final AdminService adminService;
     @GetMapping("/pods")
     public ResponseEntity<List<Pod>>getAllPods(){
@@ -51,11 +55,27 @@ public class SuperAdminController {
         }
     }
 
+
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad (@RequestBody SquadDto squadDto) {
 
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
+
+
+    @PostMapping("/get-squad/{id}")
+    public ResponseEntity<APIResponse>getSquad(@PathVariable Long id) {
+        return new ResponseEntity<>(new APIResponse<>(true, "Squad found", squadImpl.getSquad(id)), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-admin{id}")
+    public ResponseEntity<APIResponse> getAdmin(@PathVariable (value = "id")Long id){
+        return new ResponseEntity<>(superAdminService.getAdmin(id),HttpStatus.OK);
+
+    }
+
+
+
 
     @GetMapping("/squads/{offset}/{pageSize}")
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
@@ -69,5 +89,13 @@ public class SuperAdminController {
         List<AdminResponse> admins = adminService.getAllAdmin();
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
+
+
+    @PutMapping("/update-stack/{stackId}")
+    public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,
+                                                            @PathVariable Long stackId){
+        return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
+    }
 }
+
 

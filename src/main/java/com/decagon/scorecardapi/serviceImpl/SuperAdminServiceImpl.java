@@ -1,14 +1,19 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
@@ -25,6 +30,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +63,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     @Override
     public User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId) {
-        if (Objects.nonNull(userRepository.findByEmail(adminDto.getEmail()))) {
+        if (userRepository.findByEmail(adminDto.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
         }
         StringBuilder password = PasswordGenerator.generatePassword(10);
@@ -95,9 +102,32 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
+    public APIResponse getAdmin(Long id) {
+
+        User admin = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("admin not found"));
+        if(admin.getRole().equals(Role.ADMIN)){
+            return new APIResponse<>(true,"Successfully found an admin",admin);
+
+        }
+        return new APIResponse<>(true,"This person is not an admin" ,admin);
+    }
+
     public Page<Squad> getAllSquads(int offset, int pageSize) {
         Pageable pageable = PageRequest.of(offset, pageSize);
         return squadRepository.findAll(pageable);
+    }
+
+    @Override
+    public APIResponse<String> updateStack(StackDto stackDto, Long id) {
+        Optional<Stack> optionalStack = stackRepository.findById(id);
+        if (optionalStack.isEmpty()) {
+            throw new ResourceNotFoundException("Stack", "", id);
+        }
+        Stack stack = optionalStack.get();
+        stack.setStackName(stackDto.getStackName());
+        stackRepository.save(stack);
+
+        return new APIResponse<>(true, "Stack Updated Successfully");
     }
 }
 
