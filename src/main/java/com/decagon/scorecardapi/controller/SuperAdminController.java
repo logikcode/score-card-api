@@ -6,7 +6,6 @@ import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-import com.decagon.scorecardapi.response.ApiResponse;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
