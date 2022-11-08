@@ -2,6 +2,12 @@ package com.decagon.scorecardapi.serviceImpl;
 
 
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
+import com.decagon.scorecardapi.repository.PodRepository;
+import com.decagon.scorecardapi.repository.SquadRepository;
+import com.decagon.scorecardapi.response.ApiResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
@@ -22,9 +28,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -78,9 +87,20 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
+    public APIResponse getAdmin(Long id) {
+
+        User admin = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("admin not found"));
+        if(admin.getRole().equals(Role.ADMIN)){
+            return new APIResponse<>(true,"Successfully found an admin",admin);
+
+        }
+        return new APIResponse<>(true,"This person is not an admin" ,admin);
+    }
+
     public Page<Squad> getAllSquads(int offset, int pageSize) {
         Pageable pageable = PageRequest.of(offset, pageSize);
         return squadRepository.findAll(pageable);
     }
+
 }
 
