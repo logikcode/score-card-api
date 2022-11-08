@@ -46,7 +46,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     @Override
     public User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId) {
-        if (Objects.nonNull(userRepository.findByEmail(adminDto.getEmail()))) {
+        if (userRepository.findByEmail(adminDto.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
         }
         StringBuilder password = PasswordGenerator.generatePassword(10);
