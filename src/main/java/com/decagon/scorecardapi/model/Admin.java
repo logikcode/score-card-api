@@ -18,15 +18,15 @@ public class Admin extends User{
     private AssignRole assignRole;
 
     @JsonManagedReference
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "admin_squad", referencedColumnName = "id")
     private List<Squad> squads;
     @JsonManagedReference
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "stack_admin",referencedColumnName = "id")
     private List<Stack> stacks;
     @JsonBackReference
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "admin_pod",referencedColumnName = "id")
     private List<Pod> pods;
     public void setActive(boolean b) {
