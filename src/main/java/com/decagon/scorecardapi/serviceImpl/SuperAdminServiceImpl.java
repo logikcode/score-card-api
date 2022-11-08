@@ -1,7 +1,11 @@
 package com.decagon.scorecardapi.serviceImpl;
 
-
 import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.model.Pod;
+import com.decagon.scorecardapi.model.Stack;
+import com.decagon.scorecardapi.repository.PodRepository;
+import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -12,11 +16,8 @@ import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
@@ -26,7 +27,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,11 +38,28 @@ import java.util.Optional;
 public class SuperAdminServiceImpl implements SuperAdminService {
 
 
+    private final PodRepository podRepository;
+    private final UserRepository userRepository;
     private final SquadRepository squadRepository;
     private final StackRepository stackRepository;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    @Override
+    public List<Pod> listOfPods() {
+        return podRepository.findAll();
+    }
+
+    @Override
+    public String removeAdminById(Long id) {
+        if(userRepository.findById(id).isEmpty()) {
+            throw new CustomException("User not found");
+        }
+        else {
+        userRepository.deleteById(id);
+        return "Admin deleted successfully";
+        }
+
+    }
 
     @Override
     public User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId) {
