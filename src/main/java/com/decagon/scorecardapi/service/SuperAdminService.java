@@ -1,6 +1,7 @@
 package com.decagon.scorecardapi.service;
 
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.model.Squad;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ public interface SuperAdminService {
     APIResponse getAdmin(Long id);
     Page<Squad> getAllSquads(int offset, int pageSize);
 
+    APIResponse<String> updateStack(StackDto stackDto, Long id);
 
 }
 

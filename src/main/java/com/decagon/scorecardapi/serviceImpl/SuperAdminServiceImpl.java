@@ -1,9 +1,11 @@
 package com.decagon.scorecardapi.serviceImpl;
 
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
@@ -102,5 +104,17 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return squadRepository.findAll(pageable);
     }
 
+    @Override
+    public APIResponse<String> updateStack(StackDto stackDto, Long id) {
+        Optional<Stack> optionalStack = stackRepository.findById(id);
+        if (optionalStack.isEmpty()) {
+            throw new ResourceNotFoundException("Stack", "", id);
+        }
+        Stack stack = optionalStack.get();
+        stack.setStackName(stackDto.getStackName());
+        stackRepository.save(stack);
+
+        return new APIResponse<>(true, "Stack Updated Successfully");
+    }
 }
 

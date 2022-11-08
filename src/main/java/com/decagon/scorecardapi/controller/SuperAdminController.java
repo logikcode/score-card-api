@@ -1,6 +1,7 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
@@ -67,6 +68,13 @@ public class SuperAdminController {
     public ResponseEntity<?> getAllAdmin(){
         List<AdminResponse> admins = adminService.getAllAdmin();
         return new ResponseEntity<>(admins, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/update-stack/{stackId}")
+    public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,
+                                                            @PathVariable Long stackId){
+        return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
     }
 }
 
