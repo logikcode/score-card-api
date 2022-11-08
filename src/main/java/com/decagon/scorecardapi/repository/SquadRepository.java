@@ -12,5 +12,6 @@ public interface SquadRepository  extends JpaRepository<Squad, Long> {
     Squad findBySquadName(String squadName);
     boolean existsBySquadName(String squadName);
     Page<Squad> findAll(Pageable pageable);
+
 }
 
