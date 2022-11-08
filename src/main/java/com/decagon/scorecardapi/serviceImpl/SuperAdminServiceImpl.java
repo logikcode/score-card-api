@@ -112,5 +112,33 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
         return new APIResponse<>(true, "Stack Updated Successfully");
     }
+
+    @Override
+    public APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId) {
+        Admin adminName = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
+        adminName.setFirstName(adminDto.getFirstName());
+        adminName.setLastName(adminDto.getLastName());
+        adminName.setEmail(adminDto.getEmail());
+        adminName.setRole(adminDto.getRole());
+        adminName.setAssignRole(adminDto.getAssignRole());
+        userRepository.save(adminName);
+        return new APIResponse<>(true, "Admin updated successfully", adminName);
+    }
+
+    @Override
+    public APIResponse<User> activateAdmin(Long adminId) {
+        Admin admin = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
+        admin.setActive(true);
+        userRepository.save(admin);
+        return new APIResponse<>(true, "Admin activated successfully", admin);
+    }
+
+    @Override
+    public APIResponse<User> deactivateAdmin(Long adminId) {
+        Admin admin = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
+        admin.setActive(false);
+        userRepository.save(admin);
+        return new APIResponse<>(true, "Admin deactivated successfully", admin);
+    }
 }
 

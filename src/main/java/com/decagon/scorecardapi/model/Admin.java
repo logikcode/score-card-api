@@ -30,4 +30,7 @@ public class Admin extends User{
     @ManyToMany
     @JoinColumn(name = "admin_pod",referencedColumnName = "id")
     private List<Pod> pods;
+
+    public void setActive(boolean b) {
+    }
 }
