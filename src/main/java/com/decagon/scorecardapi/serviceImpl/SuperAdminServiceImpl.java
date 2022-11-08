@@ -4,15 +4,12 @@ package com.decagon.scorecardapi.serviceImpl;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
-import com.decagon.scorecardapi.enums.Role;
-import com.decagon.scorecardapi.exception.ResourceNotFoundException;
-import com.decagon.scorecardapi.exception.UserNotFoundException;
-import com.decagon.scorecardapi.repository.PodRepository;
-import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.response.ApiResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
@@ -30,10 +27,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 

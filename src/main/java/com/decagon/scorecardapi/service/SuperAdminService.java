@@ -2,18 +2,12 @@ package com.decagon.scorecardapi.service;
 
 
 import com.decagon.scorecardapi.dto.StackDto;
-import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-import com.decagon.scorecardapi.model.Squad;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
-
-
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
-import com.decagon.scorecardapi.response.ApiResponse;
+import org.springframework.data.domain.Page;
 
 public interface SuperAdminService {
     User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId);
