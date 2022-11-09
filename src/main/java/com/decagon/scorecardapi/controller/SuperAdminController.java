@@ -103,10 +103,8 @@ public class SuperAdminController {
 
     @GetMapping("/get-stack/{stackId}")
     public ResponseEntity<APIResponse<Stack>> getStackById(@PathVariable("stackId") Long stackId){
-        Stack stack = superAdminService.getStackUsingId(stackId);
-
-        return new ResponseEntity<>(new APIResponse<>(true,"Success", stack), HttpStatus.OK);
-
+            Stack stack = superAdminService.getStackUsingId(stackId);
+            return new ResponseEntity<>(new APIResponse<>(true,"Success", stack), HttpStatus.OK);
     }
     @PutMapping("/update-admin/{adminId}")
     public ResponseEntity<APIResponse<?>> updateAdmin(@RequestBody AdminDto adminDto, @PathVariable("adminId") Long adminId) {
