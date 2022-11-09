@@ -5,11 +5,9 @@ import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-
 import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
-
+import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
-
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.response.AdminResponse;
@@ -21,8 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 
 import java.util.List;
 
@@ -111,6 +107,35 @@ public class SuperAdminController {
                                                             @PathVariable Long stackId){
         return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
     }
+    @PutMapping("/update-admin/{adminId}")
+    public ResponseEntity<APIResponse<?>> updateAdmin(@RequestBody AdminDto adminDto, @PathVariable("adminId") Long adminId) {
+        try {
+            APIResponse<Admin> admin = superAdminService.updateAdmin(adminDto, adminId);
+            return new ResponseEntity<>(new APIResponse<>(true, "Admin updated successfully", admin), HttpStatus.CREATED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+        @PutMapping("/activate-admin/{adminId}")
+        public ResponseEntity<APIResponse<?>> activateAdmin(@PathVariable("adminId") Long adminId) {
+            try {
+                APIResponse<User> admin = superAdminService.activateAdmin(adminId);
+                return new ResponseEntity<>(new APIResponse<>(true, "Admin activated successfully", admin), HttpStatus.CREATED);
+            } catch (Exception ex) {
+                return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+            }
+
+        }
+        @PutMapping("/deactivate-admin/{adminId}")
+        public ResponseEntity<APIResponse<?>> deactivateAdmin(@PathVariable("adminId") Long adminId) {
+            try {
+                APIResponse<User> admin = superAdminService.deactivateAdmin(adminId);
+                return new ResponseEntity(new APIResponse<>(true, "Admin deactivated successfully", admin), HttpStatus.CREATED);
+            } catch (Exception ex) {
+                return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
+            }
+
+        }
 }
 
 

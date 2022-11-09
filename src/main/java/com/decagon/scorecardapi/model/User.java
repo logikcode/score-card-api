@@ -28,4 +28,10 @@ public class User extends BaseClass implements Serializable {
     private Boolean isAccountActive;
 
 
+    public void deactivateUser(){
+        this.setIsAccountActive(false);
+    }
+    public void activateUser(){
+        this.setIsAccountActive(true);
+    }
 }
