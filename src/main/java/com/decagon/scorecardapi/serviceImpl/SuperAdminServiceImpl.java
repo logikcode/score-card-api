@@ -1,8 +1,8 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.StackDto;
-import com.decagon.scorecardapi.model.Pod;
-import com.decagon.scorecardapi.model.Stack;
+import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.UserRepository;
@@ -14,9 +14,6 @@ import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
@@ -157,6 +154,8 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         userRepository.save(admin);
         return new APIResponse<>(true, "Admin deactivated successfully", admin);
     }
+
+
 
 }
 
