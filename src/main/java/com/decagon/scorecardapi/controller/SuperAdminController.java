@@ -19,11 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api/v1")
@@ -58,7 +54,6 @@ public class SuperAdminController {
         }
     }
 
-
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad (@RequestBody SquadDto squadDto) {
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
@@ -86,13 +81,11 @@ public class SuperAdminController {
         return  new ResponseEntity<>(squads, HttpStatus.OK);
     }
 
-
     @GetMapping("/admins")
     public ResponseEntity<?> getAllAdmin(){
         List<AdminResponse> admins = adminService.getAllAdmin();
         return new ResponseEntity<>(admins, HttpStatus.OK);
     }
-
 
     @PutMapping("/update-stack/{stackId}")
     public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,

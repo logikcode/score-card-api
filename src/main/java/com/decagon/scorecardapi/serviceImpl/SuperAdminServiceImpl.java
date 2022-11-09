@@ -4,23 +4,13 @@ import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-<<<<<<< HEAD:src/main/java/com/decagon/scorecardapi/serviceImpl/SuperAdminServiceImpl.java
 import com.decagon.scorecardapi.enums.Role;
-import com.decagon.scorecardapi.exceptions.CustomException;
-import com.decagon.scorecardapi.exceptions.ResourceNotFoundException;
-import com.decagon.scorecardapi.exceptions.SquadAlreadyExistException;
-import com.decagon.scorecardapi.exceptions.UserNotFoundException;
+import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
+import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
-=======
-import com.decagon.scorecardapi.exception.CustomException;
-import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
-import com.decagon.scorecardapi.exception.ResourceNotFoundException;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.Stack;
-import com.decagon.scorecardapi.model.User;
->>>>>>> 287b79b (code clean):src/main/java/com/decagon/scorecardapi/services/serviceimpl/SuperAdminServiceImpl.java
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.UserRepository;
