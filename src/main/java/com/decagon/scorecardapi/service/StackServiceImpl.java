@@ -2,14 +2,9 @@ package com.decagon.scorecardapi.service;
 
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
-import com.decagon.scorecardapi.exception.StackAlreadyExistException;
-import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.model.StackTemplate;
-import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.StackTemplateRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

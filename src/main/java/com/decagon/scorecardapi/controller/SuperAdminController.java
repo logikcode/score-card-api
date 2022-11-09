@@ -6,10 +6,7 @@ import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Pod;
-import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.User;
+import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import com.decagon.scorecardapi.service.SuperAdminService;
@@ -26,9 +23,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SuperAdminController {
-
-    private  final SuperAdminService superAdminService;
-
+    private final SuperAdminService superAdminService;
     private final SquadImpl squadImpl;
     private final AdminService adminService;
 
@@ -59,12 +54,13 @@ public class SuperAdminController {
         }
     }
 
-
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad(@RequestBody SquadDto squadDto) {
 
         return new ResponseEntity<>(new APIResponse<>(true, superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
+
     }
+
 
 
     @PostMapping("/get-squad/{id}")
@@ -77,8 +73,6 @@ public class SuperAdminController {
         return new ResponseEntity<>(superAdminService.getAdmin(id),HttpStatus.OK);
 
     }
-
-
 
 
     @GetMapping("/squads/{offset}/{pageSize}")
@@ -101,12 +95,19 @@ public class SuperAdminController {
 
     }
 
-
     @PutMapping("/update-stack/{stackId}")
     public ResponseEntity<APIResponse<String>> updateAStack(@RequestBody StackDto stackDto,
-                                                            @PathVariable Long stackId){
-        return new ResponseEntity<>( superAdminService.updateStack(stackDto,stackId), HttpStatus.OK);
+                                                            @PathVariable Long stackId) {
+        return new ResponseEntity<>(superAdminService.updateStack(stackDto, stackId), HttpStatus.OK);
+
     }
+
+    @GetMapping("/get-stack/{stackId}")
+    public ResponseEntity<APIResponse<Stack>> getStackById(@PathVariable("stackId") Long stackId){
+            Stack stack = superAdminService.getStackUsingId(stackId);
+            return new ResponseEntity<>(new APIResponse<>(true,"Success", stack), HttpStatus.OK);
+    }
+
     @PutMapping("/update-admin/{adminId}")
     public ResponseEntity<APIResponse<?>> updateAdmin(@RequestBody AdminDto adminDto, @PathVariable("adminId") Long adminId) {
         try {
@@ -116,6 +117,7 @@ public class SuperAdminController {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
+
         @PutMapping("/activate-admin/{adminId}")
         public ResponseEntity<APIResponse<?>> activateAdmin(@PathVariable("adminId") Long adminId) {
             try {
@@ -126,6 +128,7 @@ public class SuperAdminController {
             }
 
         }
+
         @PutMapping("/deactivate-admin/{adminId}")
         public ResponseEntity<APIResponse<?>> deactivateAdmin(@PathVariable("adminId") Long adminId) {
             try {
@@ -136,6 +139,7 @@ public class SuperAdminController {
             }
 
         }
+
 }
 
 

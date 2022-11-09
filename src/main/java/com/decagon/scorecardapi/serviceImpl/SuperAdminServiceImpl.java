@@ -1,11 +1,6 @@
 package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.StackDto;
-import com.decagon.scorecardapi.model.Pod;
-import com.decagon.scorecardapi.model.Stack;
-import com.decagon.scorecardapi.repository.PodRepository;
-import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -15,10 +10,11 @@ import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.User;
+import com.decagon.scorecardapi.model.*;
+import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
+import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
@@ -28,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -142,6 +139,15 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         stackRepository.save(stack);
 
         return new APIResponse<>(true, "Stack Updated Successfully");
+
+    }
+
+    public Stack getStackUsingId(Long id) {
+       Optional<Stack> optionalStack = stackRepository.findById(id);
+        if (optionalStack.isEmpty()) {
+            throw new ResourceNotFoundException("Stack not found", "", id);
+        }
+       return optionalStack.get();
     }
     @Override
     public APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId) {
