@@ -1,6 +1,6 @@
 package com.decagon.scorecardapi.configuration.security;
 
-import com.decagon.scorecardapi.exceptions.AccountNotActiveException;
+import com.decagon.scorecardapi.exception.AccountNotActiveException;
 import com.decagon.scorecardapi.model.CustomUserDetail;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.UserRepository;

@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.exceptions;
+package com.decagon.scorecardapi.exception;
 
 public class UserNotFoundException  extends  RuntimeException{
 
