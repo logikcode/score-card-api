@@ -26,7 +26,8 @@ public interface SuperAdminService {
 
     Page<Squad> getAllSquads(int offset, int pageSize);
 
-    Optional<Stack> getStackUsingId(Long id);
+    Stack getStackUsingId(Long id);
+
 
     APIResponse<String> updateStack(StackDto stackDto, Long id);
     APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId);

@@ -1,7 +1,7 @@
 package com.decagon.scorecardapi.configuration.security;
 
 
-import com.decagon.scorecardapi.exception.AuthorizationException;
+import com.decagon.scorecardapi.exceptions.AuthorizationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

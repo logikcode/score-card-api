@@ -27,9 +27,6 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SuperAdminController {
-
-    //private  final SuperAdminService superAdminService;
-
     private final SuperAdminService superAdminService;
     private final SquadImpl squadImpl;
     private final AdminService adminService;
@@ -62,7 +59,6 @@ public class SuperAdminController {
 
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad (@RequestBody SquadDto squadDto) {
-
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
 
@@ -104,12 +100,11 @@ public class SuperAdminController {
     }
 
     @GetMapping("/get-stack/{stackId}")
-    public ResponseEntity<?> getStackById(@PathVariable("stackId") Long stackId){
-        Optional<Stack> stack = superAdminService.getStackUsingId(stackId);
-        if (stack.isEmpty()) {
-            return new ResponseEntity<>(new APIResponse<>(false, "No Stack Found", null), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new APIResponse<>(true,"Success", stack.get()), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Stack>> getStackById(@PathVariable("stackId") Long stackId){
+        Stack stack = superAdminService.getStackUsingId(stackId);
+
+        return new ResponseEntity<>(new APIResponse<>(true,"Success", stack), HttpStatus.OK);
+
     }
     @PutMapping("/update-admin/{adminId}")
     public ResponseEntity<APIResponse<?>> updateAdmin(@RequestBody AdminDto adminDto, @PathVariable("adminId") Long adminId) {
