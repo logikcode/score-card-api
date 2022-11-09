@@ -1,11 +1,9 @@
 package com.decagon.scorecardapi.model;
-
 import com.decagon.scorecardapi.enums.AssignRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,4 +28,6 @@ public class Admin extends User{
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "admin_pod",referencedColumnName = "id")
     private List<Pod> pods;
+
+
 }
