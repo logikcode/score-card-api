@@ -43,6 +43,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     private final StackRepository stackRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+
     @Override
     public List<Pod> listOfPods() {
         return podRepository.findAll();
@@ -50,12 +51,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     @Override
     public String removeAdminById(Long id) {
-        if(userRepository.findById(id).isEmpty()) {
+        if (userRepository.findById(id).isEmpty()) {
             throw new CustomException("User not found");
-        }
-        else {
-        userRepository.deleteById(id);
-        return "Admin deleted successfully";
+        } else {
+            userRepository.deleteById(id);
+            return "Admin deleted successfully";
         }
 
     }
@@ -73,10 +73,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         admin.setRole(adminDto.getRole());
         admin.setPassword(passwordEncoder.encode(password));
         admin.setAssignRole(adminDto.getAssignRole());
-        emailService.sendEmail("ScoreCard login details "+ "password: "+ password+ " Email: "+ admin.getEmail() + "\n",
+        emailService.sendEmail("ScoreCard login details " + "password: " + password + " Email: " + admin.getEmail() + "\n",
                 "You have been added as an admin", admin.getEmail());
         return userRepository.save(admin);
     }
+
     @Override
 
     public String createSquad(SquadDto squadDto) {
@@ -84,7 +85,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             throw new SquadAlreadyExistException("Squad already exist");
         }
         Squad newSquad = new Squad();
-        List<Stack> stacks= new ArrayList<>();
+        List<Stack> stacks = new ArrayList<>();
 
         List<String> stackNames = squadDto.getStackNames();
         for (String stackName : stackNames) {
@@ -103,12 +104,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public APIResponse getAdmin(Long id) {
 
-        User admin = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("admin not found"));
-        if(admin.getRole().equals(Role.ADMIN)){
-            return new APIResponse<>(true,"Successfully found an admin",admin);
+        User admin = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("admin not found"));
+        if (admin.getRole().equals(Role.ADMIN)) {
+            return new APIResponse<>(true, "Successfully found an admin", admin);
 
         }
-        return new APIResponse<>(true,"This person is not an admin" ,admin);
+        return new APIResponse<>(true, "This person is not an admin", admin);
     }
 
     public Page<Squad> getAllSquads(int offset, int pageSize) {
@@ -144,7 +145,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public APIResponse<User> activateAdmin(Long adminId) {
         Admin admin = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
-        admin.setActive(true);
+         admin.activateUser();
         userRepository.save(admin);
         return new APIResponse<>(true, "Admin activated successfully", admin);
     }
@@ -152,9 +153,10 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     @Override
     public APIResponse<User> deactivateAdmin(Long adminId) {
         Admin admin = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
-        admin.setActive(false);
+        admin.deactivateUser();
         userRepository.save(admin);
         return new APIResponse<>(true, "Admin deactivated successfully", admin);
     }
+
 }
 

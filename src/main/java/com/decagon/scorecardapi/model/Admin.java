@@ -28,6 +28,6 @@ public class Admin extends User{
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinColumn(name = "admin_pod",referencedColumnName = "id")
     private List<Pod> pods;
-    public void setActive(boolean b) {
-    }
+
+
 }
