@@ -5,10 +5,7 @@ import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.enums.Role;
-import com.decagon.scorecardapi.exception.CustomException;
-import com.decagon.scorecardapi.exception.ResourceNotFoundException;
-import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
-import com.decagon.scorecardapi.exception.UserNotFoundException;
+import com.decagon.scorecardapi.exception.*;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
@@ -162,6 +159,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         admin.deactivateUser();
         userRepository.save(admin);
         return new APIResponse<>(true, "Admin deactivated successfully", admin);
+    }
+
+
+    public Pod getPod(Long id) {
+
+        return podRepository.findById(id).orElseThrow(()-> new PodNotFoundException(String.format("Pod with id %d not found",id)));
     }
 
 }
