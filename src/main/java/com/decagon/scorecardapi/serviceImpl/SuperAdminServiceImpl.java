@@ -1,6 +1,5 @@
 package com.decagon.scorecardapi.serviceImpl;
 
-import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
@@ -24,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -125,6 +125,15 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         stackRepository.save(stack);
 
         return new APIResponse<>(true, "Stack Updated Successfully");
+
+    }
+
+    public Stack getStackUsingId(Long id) {
+       Optional<Stack> optionalStack = stackRepository.findById(id);
+        if (optionalStack.isEmpty()) {
+            throw new ResourceNotFoundException("Stack not found", "", id);
+        }
+       return optionalStack.get();
     }
 
     @Override
