@@ -1,10 +1,19 @@
 package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.model.*;
+import com.decagon.scorecardapi.repository.PodRepository;
+import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
+import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.exception.*;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
@@ -110,6 +119,19 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         Pageable pageable = PageRequest.of(offset, pageSize);
         return squadRepository.findAll(pageable);
     }
+
+    public List<StackResponseDto> getDetailsOfAllStacks(Long squadId) {
+        List<Stack> stacks = stackRepository.findAllStackBySquadId(squadId);
+        List<StackResponseDto> stackResponseDtos = new ArrayList<>();
+        for (Stack stack : stacks){
+            StackResponseDto stackResponseDto = new StackResponseDto();
+            stackResponseDto.setStackName(stack.getStackName());
+            stackResponseDto.setPodCount(stack.getPods().size());
+            stackResponseDtos.add(stackResponseDto);
+        }
+        return stackResponseDtos;
+    }
+
 
     @Override
     public APIResponse<String> updateStack(StackDto stackDto, Long id) {

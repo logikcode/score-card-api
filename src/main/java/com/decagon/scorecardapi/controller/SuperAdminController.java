@@ -3,14 +3,10 @@ package com.decagon.scorecardapi.controller;
 
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
-
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Pod;
-import com.decagon.scorecardapi.model.Squad;
-import com.decagon.scorecardapi.model.Stack;
-import com.decagon.scorecardapi.model.User;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
+import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import com.decagon.scorecardapi.service.SuperAdminService;
@@ -21,19 +17,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SuperAdminController {
-
     private final SuperAdminService superAdminService;
     private final SquadImpl squadImpl;
     private final AdminService adminService;
+
     @GetMapping("/pods")
     public ResponseEntity<List<Pod>>getAllPods(){
         List<Pod>allPods = superAdminService.listOfPods();
@@ -54,7 +47,7 @@ public class SuperAdminController {
     public ResponseEntity<APIResponse<?>> createAdmin(@RequestBody AdminDto adminDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
         try {
             User admin = superAdminService.CreateAdmin(adminDto, podId, stackId, squadId);
-            return new ResponseEntity(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
+            return new ResponseEntity<>(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
         } catch (Exception ex) {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
@@ -62,7 +55,6 @@ public class SuperAdminController {
 
     @PostMapping("/create-squad")
     public ResponseEntity<APIResponse<String>> createSquad (@RequestBody SquadDto squadDto) {
-
         return new ResponseEntity<>(new APIResponse<>(true,  superAdminService.createSquad(squadDto)), HttpStatus.CREATED);
     }
 
@@ -91,7 +83,13 @@ public class SuperAdminController {
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
                                                     @PathVariable("pageSize") int pageSize){
         Page<Squad> squads = superAdminService.getAllSquads(offset, pageSize);
-        return  new ResponseEntity<>(squads, HttpStatus.OK);
+        return new ResponseEntity<>(squads, HttpStatus.OK);
+    }
+
+    @GetMapping("/{squadId}/stacks")
+    public ResponseEntity<List<StackResponseDto>> getDetailsOfAllStacks(@PathVariable("squadId") Long squadId) {
+        List<StackResponseDto> stacks = superAdminService.getDetailsOfAllStacks(squadId);
+        return new ResponseEntity<>(stacks, HttpStatus.OK);
     }
 
     @GetMapping("/admins")
@@ -121,6 +119,7 @@ public class SuperAdminController {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
+
         @PutMapping("/activate-admin/{adminId}")
         public ResponseEntity<APIResponse<?>> activateAdmin(@PathVariable("adminId") Long adminId) {
             try {
@@ -131,6 +130,7 @@ public class SuperAdminController {
             }
 
         }
+
         @PutMapping("/deactivate-admin/{adminId}")
         public ResponseEntity<APIResponse<?>> deactivateAdmin(@PathVariable("adminId") Long adminId) {
             try {

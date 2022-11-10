@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Stack extends  BaseClass{
+public class  Stack extends  BaseClass{
     private String stackName;
 
 

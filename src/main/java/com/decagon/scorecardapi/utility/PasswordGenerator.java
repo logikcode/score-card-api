@@ -1,7 +1,5 @@
 package com.decagon.scorecardapi.utility;
 
-import java.util.Random;
-
 public class PasswordGenerator {
     public static StringBuilder generatePassword(int passwordLength) {
         String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
