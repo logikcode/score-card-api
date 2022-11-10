@@ -1,14 +1,14 @@
-package com.decagon.scorecardapi.services.serviceimpl;
+package com.decagon.scorecardapi.serviceImpl;
 import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
-import com.decagon.scorecardapi.exceptions.ResourceNotFoundException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.repository.AdminRepository;
 import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.services.PodService;
+import com.decagon.scorecardapi.service.PodService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

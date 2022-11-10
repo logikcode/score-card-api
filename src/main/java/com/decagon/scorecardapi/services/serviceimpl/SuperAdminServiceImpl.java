@@ -15,7 +15,7 @@ import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.repository.StackRepository;
 import com.decagon.scorecardapi.repository.UserRepository;
-import com.decagon.scorecardapi.services.EmailService;
+import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.services.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
@@ -94,3 +94,4 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return squadRepository.findAll(pageable);
     }
 }
+

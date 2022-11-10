@@ -1,4 +1,4 @@
-package com.decagon.scorecardapi.services.serviceimpl;
+package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.configuration.security.AuthUserService;
 import com.decagon.scorecardapi.configuration.security.JwtService;
@@ -9,7 +9,7 @@ import com.decagon.scorecardapi.exception.AuthorizationException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.repository.UserRepository;
-import com.decagon.scorecardapi.services.AuthService;
+import com.decagon.scorecardapi.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
