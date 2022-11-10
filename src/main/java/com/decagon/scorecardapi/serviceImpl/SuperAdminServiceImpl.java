@@ -8,6 +8,7 @@ import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
@@ -114,6 +115,19 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return squadRepository.findAll(pageable);
     }
 
+    public List<StackResponseDto> getDetailsOfAllStacks(Long squadId) {
+        List<Stack> stacks = stackRepository.findAllStackBySquadId(squadId);
+        List<StackResponseDto> stackResponseDtos = new ArrayList<>();
+        for (Stack stack : stacks){
+            StackResponseDto stackResponseDto = new StackResponseDto();
+            stackResponseDto.setStackName(stack.getStackName());
+            stackResponseDto.setPodCount(stack.getPods().size());
+            stackResponseDtos.add(stackResponseDto);
+        }
+        return stackResponseDtos;
+    }
+
+
     @Override
     public APIResponse<String> updateStack(StackDto stackDto, Long id) {
         Optional<Stack> optionalStack = stackRepository.findById(id);
@@ -135,7 +149,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         }
        return optionalStack.get();
     }
-
     @Override
     public APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId) {
         Admin adminName = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
