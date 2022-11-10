@@ -11,5 +11,5 @@ import java.util.List;
 public interface AdminService {
     List<AdminResponse> getAllAdmin();
 
-    public User createDecadev(DecadevDto dev, Long podId,Long stackId, Long squadId);
+   User createDecadev(DecadevDto dev, Long podId,Long stackId, Long squadId);
 }
