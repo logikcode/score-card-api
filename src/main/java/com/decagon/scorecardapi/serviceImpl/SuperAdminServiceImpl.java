@@ -1,19 +1,20 @@
 package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.model.*;
+import com.decagon.scorecardapi.repository.PodRepository;
+import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
-import com.decagon.scorecardapi.model.*;
-import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
@@ -114,6 +115,19 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         return squadRepository.findAll(pageable);
     }
 
+    public List<StackResponseDto> getDetailsOfAllStacks(Long squadId) {
+        List<Stack> stacks = stackRepository.findAllStackBySquadId(squadId);
+        List<StackResponseDto> stackResponseDtos = new ArrayList<>();
+        for (Stack stack : stacks){
+            StackResponseDto stackResponseDto = new StackResponseDto();
+            stackResponseDto.setStackName(stack.getStackName());
+            stackResponseDto.setPodCount(stack.getPods().size());
+            stackResponseDtos.add(stackResponseDto);
+        }
+        return stackResponseDtos;
+    }
+
+
     @Override
     public APIResponse<String> updateStack(StackDto stackDto, Long id) {
         Optional<Stack> optionalStack = stackRepository.findById(id);
@@ -135,7 +149,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         }
        return optionalStack.get();
     }
-
     @Override
     public APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId) {
         Admin adminName = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
@@ -163,6 +176,8 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         userRepository.save(admin);
         return new APIResponse<>(true, "Admin deactivated successfully", admin);
     }
+
+
 
 }
 

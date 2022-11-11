@@ -3,6 +3,7 @@ import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
+import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Squad;
@@ -26,14 +27,16 @@ public interface SuperAdminService {
 
     Page<Squad> getAllSquads(int offset, int pageSize);
 
-    Stack getStackUsingId(Long id);
+    List<StackResponseDto> getDetailsOfAllStacks(Long squadId);
 
+    Stack getStackUsingId(Long id);
 
     APIResponse<String> updateStack(StackDto stackDto, Long id);
     APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId);
 
     APIResponse<User>activateAdmin(Long adminId);
     APIResponse<User> deactivateAdmin(Long adminId);
+
 
 }
 
