@@ -24,7 +24,6 @@ public class Decadev extends User{
     @ManyToOne
     @JoinColumn(name = "decadev_stack", referencedColumnName = "id")
     private Stack stack;
-    private  double overallRating;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "dev_pod",referencedColumnName = "id")
