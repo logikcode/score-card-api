@@ -12,7 +12,7 @@ import java.util.List;
 public interface AdminService {
     List<AdminResponse> getAllAdmin();
 
-    WeeklyScore weeklyScore(WeeklyScoreDto weeklyScoreDto, Long id);
+    WeeklyScore decadevWeeklyScore(WeeklyScoreDto weeklyScoreDto, Long id);
 
 
     User createDecadev(DecadevDto dev, Long podId, Long stackId, Long squadId);

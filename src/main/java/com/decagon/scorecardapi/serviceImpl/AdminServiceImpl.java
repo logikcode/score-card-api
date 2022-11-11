@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public WeeklyScore weeklyScore(WeeklyScoreDto score, Long id) {
+    public WeeklyScore decadevWeeklyScore(WeeklyScoreDto score, Long id) {
         Decadev dev = decadevRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("No Decadev with the ID: " + id));
         if (scoreRepository.findWeeklyScoreByWeekAndDecadev(score.getWeek(), dev) != null) {

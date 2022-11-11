@@ -22,7 +22,6 @@ public class WeeklyScore extends BaseClass {
     private double agileTest;
     private double weeklyTask;
     private double cumulativeScore;
-    private  double overallRating;
     private String week;
     @ManyToOne
     @JoinColumn(name ="decadev_id", referencedColumnName = "id")
