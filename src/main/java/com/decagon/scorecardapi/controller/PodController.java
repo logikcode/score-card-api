@@ -14,9 +14,14 @@ public class PodController {
     private final PodService podService;
 
     @PostMapping("/super-admin/{stackId}/create-pod")
-    public ResponseEntity<PodResponseDto> createPod(@PathVariable(name = "stackId") Long id,
-                                                    @RequestBody PodRequestDto requestDto){
-        return new ResponseEntity<>(podService.createPod(id, requestDto), HttpStatus.CREATED);
+    public ResponseEntity<?> createPod(@PathVariable(name = "stackId") Long id,
+                                       @RequestBody PodRequestDto requestDto){
+        try {
+            PodResponseDto response = podService.createPod(id, requestDto);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/super-admin/update-pod/{podId}")
