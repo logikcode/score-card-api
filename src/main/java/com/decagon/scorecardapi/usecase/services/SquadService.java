@@ -7,4 +7,5 @@ import org.springframework.data.domain.Page;
 public interface SquadService {
     Page<Squad> getAllSquads(int offset, int pageSize);
     String createSquad(SquadDto squadDto);
+//    Squad getSquad(String squadName);
 }
