@@ -49,6 +49,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public WeeklyScore decadevWeeklyScore(WeeklyScoreDto score, Long id) {
+        if((score.getAlgorithmScore() < 0|| score.getAlgorithmScore() > 100.0)
+                || (score.getWeeklyTask() < 0 || score.getWeeklyTask() > 100.0)
+                || (score.getWeeklyAssessment() < 0 || score.getWeeklyAssessment() > 100.0)
+                || (score.getAgileTest() < 0 || score.getAgileTest() >100.0)
+                || (score.getQaTest() < 0 || score.getQaTest() > 100.0 )){
+            throw new CustomException("Decadev score shouldn't be less than zero(0) or greater than 100 ");
+        }
+
         Decadev dev = decadevRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("No Decadev with the ID: " + id));
         if (scoreRepository.findWeeklyScoreByWeekAndDecadev(score.getWeek(), dev) != null) {
