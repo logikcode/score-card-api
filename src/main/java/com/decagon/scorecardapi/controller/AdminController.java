@@ -24,4 +24,14 @@ public class AdminController {
             return new ResponseEntity<>(new APIResponse<>(true, "decadev created successfully", dev), HttpStatus.CREATED);
 
     }
+
+    @DeleteMapping("/delete-decadev/{id}")
+    public ResponseEntity<APIResponse<?>> deleteDecadev(@PathVariable("id") Long id) {
+        try {
+            adminService.deleteDecadev(id);
+            return new ResponseEntity<>(new APIResponse<>(true, "decadev deleted successfully", null), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new APIResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -12,4 +12,6 @@ public interface AdminService {
     List<AdminResponse> getAllAdmin();
 
    User createDecadev(DecadevDto dev, Long podId,Long stackId, Long squadId);
+
+   void deleteDecadev(Long decadevId);
 }
