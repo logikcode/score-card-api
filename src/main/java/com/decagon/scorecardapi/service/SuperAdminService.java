@@ -37,6 +37,7 @@ public interface SuperAdminService {
     APIResponse<User>activateAdmin(Long adminId);
     APIResponse<User> deactivateAdmin(Long adminId);
 
+    Pod getPod(Long id);
 
 }
 
