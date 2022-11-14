@@ -14,7 +14,12 @@ import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
+import com.decagon.scorecardapi.exception.*;
+import com.decagon.scorecardapi.model.*;
+import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
+import com.decagon.scorecardapi.repository.StackRepository;
+import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.PasswordGenerator;
@@ -149,6 +154,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         }
        return optionalStack.get();
     }
+
     @Override
     public APIResponse<Admin> updateAdmin(AdminDto adminDto, Long adminId) {
         Admin adminName = (Admin) userRepository.findById(adminId).orElseThrow(() -> new CustomException("Admin not found"));
@@ -178,6 +184,10 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
 
+    public Pod getPod(Long id) {
+
+        return podRepository.findById(id).orElseThrow(()-> new PodNotFoundException(String.format("Pod with id %d not found",id)));
+    }
 
 }
 

@@ -2,6 +2,7 @@ package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.SquadNotFoundException;
 import com.decagon.scorecardapi.exception.StackNotFoundException;
@@ -63,6 +64,23 @@ public class AdminServiceImpl implements AdminService {
         User decadev =  userRepository.findUserByIdAndRole(decadevId, Role.DEV).orElseThrow(
                 () -> new CustomException("User not found"));
         userRepository.delete(decadev);
+    }
+
+    @Override
+    public APIResponse<Decadev> updateDecadev(DecadevDto decadevDto, Long decadevId,  Long podId, Long stackId, Long squadId ) {
+        Decadev decadev = (Decadev) userRepository.findById(decadevId).orElseThrow(() -> new CustomException("Decadev not found"));
+        Pod pod = podRepository.findById(podId).orElseThrow(()-> new CustomException("Not found"));
+        Stack stack = stackRepository.findById(stackId).orElseThrow(()-> new StackNotFoundException("Not found"));
+        Squad squad = squadRepository.findById(squadId).orElseThrow(()-> new SquadNotFoundException("Not found"));
+        decadev.setFirstName(decadevDto.getFirstName());
+        decadev.setLastName(decadevDto.getLastName());
+        decadev.setEmail(decadevDto.getEmail());
+        decadev.setSquad(squad);
+        decadev.setStack(stack);
+        decadev.setPod(pod);
+        userRepository.save(decadev);
+        return new APIResponse<>(true, "Decadev updated successfully", decadev);
+
     }
 
 }
