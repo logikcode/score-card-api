@@ -1,6 +1,7 @@
 package com.decagon.scorecardapi.dto;
 import com.decagon.scorecardapi.enums.Gender;
 import com.decagon.scorecardapi.enums.Role;
+import com.decagon.scorecardapi.model.Decadev;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
@@ -20,6 +21,15 @@ public class DecadevDto {
     private Role role;
 
 
-
+    public static DecadevDto fromDecadev(Decadev decadev) {
+        DecadevDto decadevDto = new DecadevDto();
+        decadevDto.setFirstName(decadev.getFirstName());
+        decadevDto.setLastName(decadev.getLastName());
+        decadevDto.setGender(decadev.getGender());
+        decadevDto.setEmail(decadev.getEmail());
+        decadevDto.setDecadevId(decadev.getDecadevId());
+        decadevDto.setRole(decadev.getRole());
+        return decadevDto;
+    }
 
 }

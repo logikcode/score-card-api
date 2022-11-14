@@ -40,8 +40,8 @@ public class AdminController {
     }
 
     @GetMapping("/get-all-decadevs/{podId}")
-    public ResponseEntity<APIResponse<?>> getAllDecadevs(@RequestBody Role role, @PathVariable("podId") Long podId) {
-        List<AdminResponse> decadevs = adminService.getAllDecadevs(role, podId);
+    public ResponseEntity<APIResponse<?>> getAllDecadevs(@PathVariable("podId") Long podId) {
+        List<DecadevDto> decadevs = adminService.getAllDecadevs(podId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadevs retrieved successfully", decadevs), HttpStatus.OK);
     }
 

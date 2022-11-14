@@ -18,6 +18,6 @@ public interface AdminService {
 
     APIResponse<Decadev> updateDecadev(DecadevDto decadevDto, Long decadevId, Long podId, Long stackId, Long squadId);
 
-    List<AdminResponse> getAllDecadevs(Role role, Long podId);
+    List<DecadevDto> getAllDecadevs(Long podId);
 }
 

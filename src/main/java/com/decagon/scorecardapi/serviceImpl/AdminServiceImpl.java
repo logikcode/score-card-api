@@ -6,6 +6,7 @@ import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.SquadNotFoundException;
 import com.decagon.scorecardapi.exception.StackNotFoundException;
+import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.*;
 import com.decagon.scorecardapi.response.AdminResponse;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -79,16 +81,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<AdminResponse> getAllDecadevs(Role role, Long podId) {
-        Pod pod = podRepository.findById(podId).orElseThrow(()-> new CustomException("Not found"));
-        List<User> decadevs = userRepository.findByRoleAndPod(Role.DEV, pod);
-        List<AdminResponse> devResponse = new ArrayList<>();
-        if (decadevs.size() != 0){
-            for (User decadev : decadevs){
-                devResponse.add(new AdminResponse((Admin) decadev));
-            }
-        }
-
-        return devResponse;
+    public List<DecadevDto> getAllDecadevs(Long podId) {
+        Pod pod = podRepository.findById(podId).orElseThrow(()-> new UserNotFoundException("Decadev Not found"));
+        return pod.getDecadev().stream().map(DecadevDto::fromDecadev).collect(Collectors.toList());
     }
 }
