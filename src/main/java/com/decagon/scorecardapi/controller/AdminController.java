@@ -1,12 +1,7 @@
 package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.DecadevDto;
-import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
-import com.decagon.scorecardapi.enums.Role;
-import com.decagon.scorecardapi.model.Admin;
-import com.decagon.scorecardapi.model.Decadev;
 import com.decagon.scorecardapi.model.User;
-import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/get-all-decadevs/{podId}")
     public ResponseEntity<APIResponse<?>> getAllDecadevs(@PathVariable("podId") Long podId) {
-        List<DecadevDto> decadevs = adminService.getAllDecadevs(podId);
+        List<DecadevDto> decadevs = adminService.getAllDecadevsFromAPod(podId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadevs retrieved successfully", decadevs), HttpStatus.OK);
     }
 

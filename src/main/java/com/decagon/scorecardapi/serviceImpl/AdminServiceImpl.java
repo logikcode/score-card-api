@@ -81,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<DecadevDto> getAllDecadevs(Long podId) {
+    public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
         Pod pod = podRepository.findById(podId).orElseThrow(()-> new UserNotFoundException("Decadev Not found"));
         return pod.getDecadev().stream().map(DecadevDto::fromDecadev).collect(Collectors.toList());
     }
