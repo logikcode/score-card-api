@@ -2,15 +2,19 @@ package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Decadev;
 import com.decagon.scorecardapi.model.User;
+import com.decagon.scorecardapi.response.AdminResponse;
 import com.decagon.scorecardapi.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -28,11 +32,17 @@ public class AdminController {
 
     }
 
-    @PutMapping("/updatee-decadev/{squadId}/{stackId}/{podId}")
-    public ResponseEntity<APIResponse<?>> updateeDecadev(@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
+    @PutMapping("/update-decadev/{squadId}/{stackId}/{podId}")
+    public ResponseEntity<APIResponse<?>> updateDecadev (@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
         User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadev updated successfully", dev), HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("/get-all-decadevs/{podId}")
+    public ResponseEntity<APIResponse<?>> getAllDecadevs(@RequestBody Role role, @PathVariable("podId") Long podId) {
+        List<AdminResponse> decadevs = adminService.getAllDecadevs(role, podId);
+        return new ResponseEntity<>(new APIResponse<>(true, "decadevs retrieved successfully", decadevs), HttpStatus.OK);
     }
 
 }

@@ -33,4 +33,5 @@ public class Pod extends BaseClass{
     @JoinColumn(name = "stack_pod", referencedColumnName = "id")
     private Stack stack;
 
+
 }
