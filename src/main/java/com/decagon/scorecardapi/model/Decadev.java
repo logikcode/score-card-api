@@ -1,9 +1,6 @@
 package com.decagon.scorecardapi.model;
 
-import com.decagon.scorecardapi.enums.Gender;
-import com.decagon.scorecardapi.enums.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,29 +24,13 @@ public class Decadev extends User{
     @ManyToOne
     @JoinColumn(name = "decadev_stack", referencedColumnName = "id")
     private Stack stack;
-
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "dev_pod",referencedColumnName = "id")
     private Pod pod;
-    @JsonBackReference
-    @ManyToMany(mappedBy = "decadev")
-    private List<Algorithm> algorithm = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "decadev")
-    private List<AgileTest> agileTests = new ArrayList<>();
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "decadev")
-    private List<AssessmentTest> assessmentTests = new ArrayList<>();
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "decadev")
-    private List<QATest> QATests = new ArrayList<>();
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "decadev")
-    private List<WeeklyTask> weeklyTasks = new ArrayList<>();
+    @OneToMany(mappedBy = "decadev")
+    private List<WeeklyScore> weeklyScores = new ArrayList<>();
 
 }
