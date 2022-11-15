@@ -1,6 +1,8 @@
 package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.model.Admin;
+import com.decagon.scorecardapi.model.Decadev;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,8 @@ public class AdminController {
 
     @PostMapping("/create-decadev/{squadId}/{stackId}/{podId}")
     public ResponseEntity<APIResponse<?>> createDecadev(@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
-            User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
-            return new ResponseEntity<>(new APIResponse<>(true, "decadev created successfully", dev), HttpStatus.CREATED);
+        User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
+        return new ResponseEntity<>(new APIResponse<>(true, "decadev created successfully", dev), HttpStatus.CREATED);
 
     }
 

@@ -1,6 +1,7 @@
 package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.DecadevDto;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.exception.*;
 import com.decagon.scorecardapi.model.*;
@@ -28,8 +29,8 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminResponse> getAllAdmin() {
         List<Admin> admins = adminRepository.findAll();
         List<AdminResponse> adminResponses = new ArrayList<>();
-        if (admins.size() != 0){
-            for (Admin admin : admins){
+        if (admins.size() != 0) {
+            for (Admin admin : admins) {
                 adminResponses.add(new AdminResponse(admin));
             }
         }
@@ -38,12 +39,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User createDecadev(DecadevDto decadev, Long podId, Long stackId, Long squadId) {
-        if(userRepository.findByEmail(decadev.getEmail()).isPresent()){
+        if (userRepository.findByEmail(decadev.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
         }
-        Pod pod = podRepository.findById(podId).orElseThrow(()-> new CustomException("Not found"));
-        Stack stack = stackRepository.findById(stackId).orElseThrow(()-> new StackNotFoundException("Not found"));
-        Squad squad = squadRepository.findById(squadId).orElseThrow(()-> new SquadNotFoundException("Not found"));
+        Pod pod = podRepository.findById(podId).orElseThrow(() -> new CustomException("Not found"));
+        Stack stack = stackRepository.findById(stackId).orElseThrow(() -> new StackNotFoundException("Not found"));
+        Squad squad = squadRepository.findById(squadId).orElseThrow(() -> new SquadNotFoundException("Not found"));
         Decadev dev = new Decadev();
         dev.setFirstName(decadev.getFirstName());
         dev.setLastName(decadev.getLastName());
