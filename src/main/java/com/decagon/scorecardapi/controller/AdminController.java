@@ -37,6 +37,16 @@ public class AdminController {
 
     }
 
+    @DeleteMapping("/delete-decadev/{id}")
+    public ResponseEntity<APIResponse<?>> deleteDecadev(@PathVariable("id") Long id) {
+        try {
+            adminService.deleteDecadev(id);
+            return new ResponseEntity<>(new APIResponse<>(true, "decadev deleted successfully", null), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new APIResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping("/updatee-decadev/{squadId}/{stackId}/{podId}")
     public ResponseEntity<APIResponse<?>> updateeDecadev(@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
         User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);

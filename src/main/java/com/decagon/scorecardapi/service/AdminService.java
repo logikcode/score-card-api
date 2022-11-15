@@ -16,6 +16,7 @@ public interface AdminService {
 
     WeeklyScore decadevWeeklyScore(WeeklyScoreDto weeklyScoreDto, Long id);
 
+   void deleteDecadev(Long decadevId);
 
     User createDecadev(DecadevDto dev, Long podId, Long stackId, Long squadId);
     APIResponse<Decadev> updateDecadev(DecadevDto decadevDto, Long decadevId, Long podId, Long stackId, Long squadId);

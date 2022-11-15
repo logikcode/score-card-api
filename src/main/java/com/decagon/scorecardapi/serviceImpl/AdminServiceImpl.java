@@ -2,6 +2,7 @@ package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.WeeklyScoreDto;
 import com.decagon.scorecardapi.dto.DecadevDto;
+import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
@@ -98,6 +99,12 @@ public class AdminServiceImpl implements AdminService {
         return userRepository.save(dev);
 
     }
+    @Override
+    public void deleteDecadev(Long decadevId) {
+        User decadev =  userRepository.findUserByIdAndRole(decadevId, Role.DEV).orElseThrow(
+                () -> new CustomException("User not found"));
+        userRepository.delete(decadev);
+    }
 
     @Override
     public APIResponse<Decadev> updateDecadev(DecadevDto decadevDto, Long decadevId,  Long podId, Long stackId, Long squadId ) {
@@ -115,6 +122,5 @@ public class AdminServiceImpl implements AdminService {
         return new APIResponse<>(true, "Decadev updated successfully", decadev);
 
     }
-
 
 }
