@@ -4,6 +4,7 @@ import com.decagon.scorecardapi.dto.WeeklyScoreDto;
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.exception.*;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
@@ -129,4 +132,9 @@ public class AdminServiceImpl implements AdminService {
         return scoreRepository.findWeeklyScoreByWeekAndDecadev(week, dev);
     }
 
+    @Override
+    public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
+        Pod pod = podRepository.findById(podId).orElseThrow(()-> new PodNotFoundException("Decadev Not found"));
+        return pod.getDecadev().stream().map(DecadevDto::getDecadevFromAPodDto).collect(Collectors.toList());
+    }
 }
