@@ -68,20 +68,7 @@ public class PodServiceImpl implements PodService {
             return requestDto;
 
     }
-//    @Override
-//    public PodResponseDto updatePod(Long PodId, PodRequestDto requestDto) {
-//        return podRepository.findById(PodId).map(podUpdate-> {
-//            List<Admin> newAdminList = new ArrayList();
-//            Admin stackAssociate = adminRepository.findAdminByEmail(requestDto.getStackAssociateByEmail()).orElseThrow(()->new CustomException("Stack Associate does not exist"));
-//            Admin programAssociate = adminRepository.findAdminByEmail(requestDto.getProgramAssociateByEmail()).orElseThrow(()->new CustomException("Program Associate does not exist"));
-//            newAdminList.add(stackAssociate);
-//            newAdminList.add(programAssociate);
-//            podUpdate.setAdmin(newAdminList);
-//            podUpdate.setPodName(requestDto.getPodName());
-//            Pod updated = podRepository.save(podUpdate);
-//            return modelMapper.map(updated, PodResponseDto.class);
-//        }).orElseThrow(()-> new ResourceNotFoundException("pod not found ", "id", PodId));
-    }
+}
 
 
 
