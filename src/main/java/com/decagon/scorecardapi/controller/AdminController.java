@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@Slf4j
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -52,9 +52,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/updatee-decadev/{squadId}/{stackId}/{podId}")
-    public ResponseEntity<APIResponse<?>> updateeDecadev(@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
-    @PutMapping("/update-decadev/{squadId}/{stackId}/{podId}")
+     @PutMapping("/update-decadev/{squadId}/{stackId}/{podId}")
     public ResponseEntity<APIResponse<?>> updateDecadev (@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
         User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadev updated successfully", dev), HttpStatus.CREATED);
