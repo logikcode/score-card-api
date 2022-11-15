@@ -2,11 +2,7 @@ package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
-import com.decagon.scorecardapi.enums.Role;
-import com.decagon.scorecardapi.exception.CustomException;
-import com.decagon.scorecardapi.exception.SquadNotFoundException;
-import com.decagon.scorecardapi.exception.StackNotFoundException;
-import com.decagon.scorecardapi.exception.UserNotFoundException;
+import com.decagon.scorecardapi.exception.*;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.*;
 import com.decagon.scorecardapi.response.AdminResponse;
@@ -82,7 +78,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
-        Pod pod = podRepository.findById(podId).orElseThrow(()-> new UserNotFoundException("Decadev Not found"));
-        return pod.getDecadev().stream().map(DecadevDto::fromDecadev).collect(Collectors.toList());
+        Pod pod = podRepository.findById(podId).orElseThrow(()-> new PodNotFoundException("Decadev Not found"));
+        return pod.getDecadev().stream().map(DecadevDto::getDecadevFromAPodDto).collect(Collectors.toList());
     }
 }
