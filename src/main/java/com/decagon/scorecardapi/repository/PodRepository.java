@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface PodRepository extends JpaRepository<Pod, Long> {
 
+    boolean existsByPodName(String podName);
 
 }
 
