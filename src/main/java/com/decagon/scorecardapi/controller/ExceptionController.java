@@ -1,5 +1,7 @@
 package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.exception.CustomException;
+import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +13,15 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<APIResponse> userNotFoundException(UserNotFoundException exception){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<APIResponse<?>> resourceNotFoundException(ResourceNotFoundException exception){
         return new ResponseEntity<>(new APIResponse<>(true, exception.getMessage(), null), HttpStatus.NOT_FOUND);
     }
 
-
-
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<APIResponse<?>> customExceptionHandler(CustomException exception){
+        return new ResponseEntity<>(new APIResponse<>(true, exception.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
 }
 
 
