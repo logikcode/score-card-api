@@ -1,6 +1,8 @@
 package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
+import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.service.PodService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,18 +18,15 @@ public class PodController {
     @PostMapping("/super-admin/{stackId}/create-pod")
     public ResponseEntity<?> createPod(@PathVariable(name = "stackId") Long id,
                                        @RequestBody PodRequestDto requestDto){
-        try {
-            PodResponseDto response = podService.createPod(id, requestDto);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+
+           PodResponseDto response = podService.createPod(id, requestDto);
+           return new ResponseEntity<>(response, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/super-admin/update-pod/{podId}")
-    public ResponseEntity<PodResponseDto> updatePod(@PathVariable(name = "podId") Long id,
-                                                    @RequestBody PodRequestDto requestDto ){
-        return new ResponseEntity<>(podService.updatePod(id, requestDto), HttpStatus.OK);
+    public ResponseEntity<?> updatePod(@PathVariable(name = "podId") Long id, @RequestBody PodRequestDto requestDto ){podService.updatePod(id, requestDto);
+        return new ResponseEntity<>(new APIResponse<>(true, "pod successfully updated ",null),HttpStatus.OK );
     }
 
 }
