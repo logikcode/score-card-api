@@ -39,7 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/index", "/api/v1/loggedOut", "/api/v1/login").permitAll()
+                .antMatchers("/index", "/api/v1/loggedOut", "/api/v1/login","/api/v1/reset-password","/api/v1/forgot-password").permitAll()
                 .antMatchers("/api/v1/super-admin/**").hasAuthority("SUPER_ADMIN")
                 .antMatchers("/api/v1/admin/**").hasAnyAuthority("ADMIN","SUPER_ADMIN")
                 .anyRequest().authenticated()

@@ -5,7 +5,6 @@ import com.decagon.scorecardapi.enums.Role;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,6 +25,7 @@ public class User extends BaseClass implements Serializable {
     private Role role;
     private String password;
     private Boolean isAccountActive;
+    private String userOTP;
 
 
     public void deactivateUser(){

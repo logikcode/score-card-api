@@ -1,6 +1,7 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
@@ -71,14 +72,10 @@ public class SuperAdminController {
 
     }
 
-
-
-
     @GetMapping(value ="/get-pod/{podId}")
     public ResponseEntity<APIResponse<?>> getPod(@PathVariable(value = "podId")Long id){
         return  Responder.successful(superAdminService.getPod(id));
     }
-
 
     @GetMapping("/squads/{offset}/{pageSize}")
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
@@ -140,13 +137,25 @@ public class SuperAdminController {
             } catch (Exception ex) {
                 return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
             }
+        }
 
+        @GetMapping("/forgot-password")
+        public ResponseEntity<APIResponse>forgotPassword(@RequestBody ForgetPasswordRequest forgotPasswordRequest){
+            try{
+                return new ResponseEntity<>(new APIResponse<>(true, "Password reset link sent to your email", superAdminService.forgotPassword(forgotPasswordRequest)), HttpStatus.OK);
+            }catch(Exception e){
+                return new ResponseEntity<>(new APIResponse(false,"User not found",null),HttpStatus.BAD_REQUEST);
+            }
         }
-        @PostMapping("/forgot-password")
-        public ResponseEntity<APIResponse> forgotPassword(@RequestBody ForgetPasswordRequest request){
-             superAdminService.forgotPassword(request);
-             return new ResponseEntity<>(new APIResponse(true,"Password reset link sent to your email"),HttpStatus.OK);
+
+        @PostMapping("/reset-password")
+    public ResponseEntity<APIResponse> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        try{
+            return new ResponseEntity<>(new APIResponse<>(true, "Password reset successfully", superAdminService.resetPassword(resetPasswordRequest)), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(new APIResponse(false,e.getMessage(),null),HttpStatus.BAD_REQUEST);
         }
+    }
 }
 
 
