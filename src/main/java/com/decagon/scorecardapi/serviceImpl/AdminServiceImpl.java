@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -81,20 +82,37 @@ public class AdminServiceImpl implements AdminService {
         return scoreRepository.save(devWeeklyScore);
     }
 
+
+
     @Override
-    public APIResponse updateScore(WeeklyScoreDto weeklyScoreDto, Long id) {
-        WeeklyScore score = new WeeklyScore();
-        score.setAlgorithmScore(score.getAlgorithmScore());
-        score.setQaTest(score.getQaTest());
-        score.setWeeklyAssessment(score.getWeeklyAssessment());
-        score.setAgileTest(score.getAgileTest());
-        score.setWeeklyTask(score.getWeeklyTask());
-        score.setWeek(score.getWeek());
-        score.setDecadev(score.getDecadev());
-        score.setCumulativeScore(score.getCumulativeScore());
-        //scoreRepository.save(decadevWeeklyScore(weeklyScoreDto,id));
-        scoreRepository.save(score);
-        return new APIResponse<>(true,"successfully updates your weekly score",score);
+    public WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long devId,Long weekId) {
+        Optional<Decadev> dev = decadevRepository.findById(devId);
+        if(dev.isEmpty()){
+            System.out.println("I CAN'T FIND A DECADEV");
+            throw new UserNotFoundException("User not found");
+        }
+
+        Optional<WeeklyScore> weeklyScore = this.fetchDecadevWeeklyScore(dev.get(),weekId);
+        if(weeklyScore.isEmpty()){
+            System.out.println("I CAN'T FIND WEEKLY SCORE");
+            throw new UserNotFoundException("weekly scores not found");
+        }
+
+        WeeklyScore devWeeklyScore = weeklyScore.get();
+        devWeeklyScore.setAlgorithmScore(score.getAlgorithmScore());
+        devWeeklyScore.setAgileTest(score.getAgileTest());
+        devWeeklyScore.setQaTest(score.getQaTest());
+        devWeeklyScore.setWeeklyTask(score.getWeeklyTask());
+        devWeeklyScore.setWeek(score.getWeek());
+        devWeeklyScore.setWeeklyAssessment(score.getWeeklyAssessment());
+        double result = CalculateScores.weeklyCumulative(score.getWeeklyTask(),
+                score.getAlgorithmScore(), score.getQaTest(), score.getAgileTest(), score.getWeeklyAssessment());
+        devWeeklyScore.setCumulativeScore(result);
+        return scoreRepository.save(devWeeklyScore);
+    }
+
+    private Optional<WeeklyScore> fetchDecadevWeeklyScore(Decadev decadev, Long weekId) {
+        return decadev.getWeeklyScores().stream().filter(weeklyScore -> weeklyScore.getId().equals(weekId)).findFirst();
     }
 
     public User createDecadev(DecadevDto decadev, Long podId, Long stackId, Long squadId) {

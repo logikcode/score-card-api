@@ -58,10 +58,10 @@ public class AdminController {
         return new ResponseEntity<>(new APIResponse<>(true, "decadev updated successfully", dev), HttpStatus.CREATED);
 
     }
-    @PutMapping("/update-score/{devId}")
-    public ResponseEntity<APIResponse<?>> updateScore(@PathVariable("devId") Long devId, @RequestBody WeeklyScoreDto score) {
-        WeeklyScore weeklyScore1 = adminService.decadevWeeklyScore(score, devId);
-        return new ResponseEntity<>(new APIResponse<>(true, "Succesfully updated your score", weeklyScore1), HttpStatus.OK);
+    @PutMapping("/update-score/{devId}/weekly-score/{weekId}")
+    public ResponseEntity<APIResponse<?>> updateScore(@PathVariable("devId") Long devId,@PathVariable("weekId") Long weekId, @RequestBody WeeklyScoreDto score) {
+        WeeklyScore devScore = adminService.updateDecadevWeeklyScore(score, devId, weekId);
+        return new ResponseEntity<>(new APIResponse<>(true, "Succesfully updated your score", devScore), HttpStatus.OK);
     }
     @GetMapping("/get-all-decadevs/{podId}")
     public ResponseEntity<APIResponse<?>> getAllDecadevs(@PathVariable("podId") Long podId) {

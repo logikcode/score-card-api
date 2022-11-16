@@ -15,9 +15,13 @@ public interface AdminService {
     List<AdminResponse> getAllAdmin();
 
     WeeklyScore decadevWeeklyScore(WeeklyScoreDto weeklyScoreDto, Long id);
-    APIResponse updateScore(WeeklyScoreDto weeklyScoreDto, Long id);
+    //APIResponse updateScore(WeeklyScoreDto weeklyScoreDto, Long id);
 
    void deleteDecadev(Long decadevId);
+
+    WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long Id, Long weekId);
+
+    //APIResponse<WeeklyScore> updateDecadevWeeklyScore(WeeklyScoreDto score, Long Id);
 
     User createDecadev(DecadevDto dev, Long podId, Long stackId, Long squadId);
     APIResponse<Decadev> updateDecadev(DecadevDto decadevDto, Long decadevId, Long podId, Long stackId, Long squadId);
