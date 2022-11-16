@@ -22,6 +22,13 @@ public class ExceptionController {
     public ResponseEntity<APIResponse<?>> customExceptionHandler(CustomException exception){
         return new ResponseEntity<>(new APIResponse<>(true, exception.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<APIResponse<?>> userNotFoundException(UserNotFoundException exception){
+        return new ResponseEntity<>(new APIResponse<>(true, exception.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+
 }
 
 
