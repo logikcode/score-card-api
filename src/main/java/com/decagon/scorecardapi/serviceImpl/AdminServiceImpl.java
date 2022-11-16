@@ -88,14 +88,12 @@ public class AdminServiceImpl implements AdminService {
     public WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long devId,Long weekId) {
         Optional<Decadev> dev = decadevRepository.findById(devId);
         if(dev.isEmpty()){
-            System.out.println("I CAN'T FIND A DECADEV");
             throw new UserNotFoundException("User not found");
         }
 
         Optional<WeeklyScore> weeklyScore = this.fetchDecadevWeeklyScore(dev.get(),weekId);
         if(weeklyScore.isEmpty()){
-            System.out.println("I CAN'T FIND WEEKLY SCORE");
-            throw new UserNotFoundException("weekly scores not found");
+            throw new ScoresNotFoundException("weekly scores not found");
         }
 
         WeeklyScore devWeeklyScore = weeklyScore.get();
