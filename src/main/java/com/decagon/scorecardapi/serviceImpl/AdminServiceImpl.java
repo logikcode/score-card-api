@@ -125,6 +125,12 @@ public class AdminServiceImpl implements AdminService {
         return new APIResponse<>(true, "Decadev updated successfully", decadev);
 
     }
+    @Override
+    public WeeklyScore getDevWeeklyScore(String week, Long id){
+        Decadev dev = decadevRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("No Decadev with the ID: " + id));
+        return scoreRepository.findWeeklyScoreByWeekAndDecadev(week, dev);
+    }
 
     @Override
     public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
