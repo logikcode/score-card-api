@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     private final StackRepository stackRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final MemcachedService memcached;
 
     @Override
     public List<Pod> listOfPods() {
@@ -187,6 +190,19 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public Pod getPod(Long id) {
 
         return podRepository.findById(id).orElseThrow(()-> new PodNotFoundException(String.format("Pod with id %d not found",id)));
+    }
+
+    @Override
+    public APIResponse<?> forgotPassword(ForgetPasswordRequest request){
+        User existingUser= userRepository.findByEmail(request.getEmail()).orElse(null);
+        if(!(existingUser==null)) {
+            String otp = String.valueOf((Math.random() * (10000 - 9999 + 1) + 9999));
+            memcached.save(existingUser.getEmail(), otp);// saving otp to memory
+            emailService.sendEmail( "Your forgot password OTP is "+otp, "Forgot Password", existingUser.getEmail());
+            return new APIResponse<>(true, "##### OTP sent to your email", null);
+        }else{
+            return new APIResponse<>(false, "User not found", null);
+        }
     }
 
 }

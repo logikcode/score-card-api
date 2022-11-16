@@ -1,6 +1,7 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
@@ -140,6 +141,11 @@ public class SuperAdminController {
                 return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
             }
 
+        }
+        @PostMapping("/forgot-password")
+        public ResponseEntity<APIResponse> forgotPassword(@RequestBody ForgetPasswordRequest request){
+             superAdminService.forgotPassword(request);
+             return new ResponseEntity<>(new APIResponse(true,"Password reset link sent to your email"),HttpStatus.OK);
         }
 }
 
