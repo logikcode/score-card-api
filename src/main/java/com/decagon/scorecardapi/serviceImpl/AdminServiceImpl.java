@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -81,6 +82,37 @@ public class AdminServiceImpl implements AdminService {
         return scoreRepository.save(devWeeklyScore);
     }
 
+
+
+    @Override
+    public WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long devId,Long weekId) {
+        Optional<Decadev> dev = decadevRepository.findById(devId);
+        if(dev.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+
+        Optional<WeeklyScore> weeklyScore = this.fetchDecadevWeeklyScore(dev.get(),weekId);
+        if(weeklyScore.isEmpty()){
+            throw new ScoresNotFoundException("weekly scores not found");
+        }
+
+        WeeklyScore devWeeklyScore = weeklyScore.get();
+        devWeeklyScore.setAlgorithmScore(score.getAlgorithmScore());
+        devWeeklyScore.setAgileTest(score.getAgileTest());
+        devWeeklyScore.setQaTest(score.getQaTest());
+        devWeeklyScore.setWeeklyTask(score.getWeeklyTask());
+        devWeeklyScore.setWeek(score.getWeek());
+        devWeeklyScore.setWeeklyAssessment(score.getWeeklyAssessment());
+        double result = CalculateScores.weeklyCumulative(score.getWeeklyTask(),
+                score.getAlgorithmScore(), score.getQaTest(), score.getAgileTest(), score.getWeeklyAssessment());
+        devWeeklyScore.setCumulativeScore(result);
+        return scoreRepository.save(devWeeklyScore);
+    }
+
+    private Optional<WeeklyScore> fetchDecadevWeeklyScore(Decadev decadev, Long weekId) {
+        return decadev.getWeeklyScores().stream().filter(weeklyScore -> weeklyScore.getId().equals(weekId)).findFirst();
+    }
+
     public User createDecadev(DecadevDto decadev, Long podId, Long stackId, Long squadId) {
         if (userRepository.findByEmail(decadev.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
@@ -132,9 +164,11 @@ public class AdminServiceImpl implements AdminService {
         return scoreRepository.findWeeklyScoreByWeekAndDecadev(week, dev);
     }
 
+
     @Override
     public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
         Pod pod = podRepository.findById(podId).orElseThrow(()-> new PodNotFoundException("Decadev Not found"));
         return pod.getDecadev().stream().map(DecadevDto::getDecadevFromAPodDto).collect(Collectors.toList());
     }
+
 }
