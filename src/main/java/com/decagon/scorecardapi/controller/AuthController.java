@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.ChangePasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.requestdto.LoginDto;
@@ -40,6 +41,14 @@ public class AuthController {
         public ResponseEntity<APIResponse> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
             try {
                 return new ResponseEntity<>(new APIResponse<>(true, "Password reset successfully", superAdminService.resetPassword(resetPasswordRequest)), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+            }
+        }
+        @PutMapping("/change-password/{id}")
+        public ResponseEntity<APIResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, @PathVariable ("id") Long id) {
+            try {
+                return new ResponseEntity<>(new APIResponse<>(true, "Password changed successfully", superAdminService.changePassword(changePasswordRequest, id)), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
             }

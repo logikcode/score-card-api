@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.ChangePasswordRequest;
 import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
@@ -199,6 +200,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             user.get().setUserOTP(passwordEncoder.encode(password));
             user.get().setUpdateDate(LocalDateTime.now());
             userRepository.save(user.get());
+//            System.out.println(password);
             emailService.sendEmail("You can now reset your password for this email " + user.get().getEmail() + " and this token " + password + "\n",
                     "Password reset", user.get().getEmail());
             return new APIResponse<>(true, "Verify OTP");
@@ -224,6 +226,18 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             else {
                 throw new PasswordNotMatchException("invalid token provided");
             }
+        }
+    }
+    @Override
+    public APIResponse<?> changePassword(ChangePasswordRequest request, Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+            return new APIResponse<>(true, "Password changed successfully");
+        }
+        else {
+            throw new PasswordNotMatchException("Old password does not match");
         }
     }
 
