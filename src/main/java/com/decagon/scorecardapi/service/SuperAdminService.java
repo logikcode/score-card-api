@@ -1,4 +1,6 @@
 package com.decagon.scorecardapi.service;
+import com.decagon.scorecardapi.dto.ResetPasswordRequest;
+import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
@@ -10,8 +12,8 @@ import com.decagon.scorecardapi.model.Squad;
 import com.decagon.scorecardapi.model.Stack;
 import com.decagon.scorecardapi.model.User;
 import org.springframework.data.domain.Page;
+
 import java.util.List;
-import java.util.Optional;
 
 public interface SuperAdminService {
 
@@ -38,6 +40,11 @@ public interface SuperAdminService {
     APIResponse<User> deactivateAdmin(Long adminId);
 
     Pod getPod(Long id);
+
+    APIResponse<?> forgotPassword(ForgetPasswordRequest request);
+
+    APIResponse<?> resetPassword(ResetPasswordRequest request);
+
 
 }
 

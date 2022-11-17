@@ -1,6 +1,8 @@
 
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.ResetPasswordRequest;
+import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
@@ -70,14 +72,10 @@ public class SuperAdminController {
 
     }
 
-
-
-
     @GetMapping(value ="/get-pod/{podId}")
     public ResponseEntity<APIResponse<?>> getPod(@PathVariable(value = "podId")Long id){
         return  Responder.successful(superAdminService.getPod(id));
     }
-
 
     @GetMapping("/squads/{offset}/{pageSize}")
     public ResponseEntity<Page<Squad>> getAllSquads(@PathVariable("offset") int offset,
@@ -139,7 +137,6 @@ public class SuperAdminController {
             } catch (Exception ex) {
                 return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
             }
-
         }
 }
 

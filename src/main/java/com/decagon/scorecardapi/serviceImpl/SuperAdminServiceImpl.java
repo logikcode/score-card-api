@@ -1,5 +1,7 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.ResetPasswordRequest;
+import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.model.*;
 import com.decagon.scorecardapi.repository.PodRepository;
@@ -15,14 +17,10 @@ import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.exception.*;
-import com.decagon.scorecardapi.model.*;
-import com.decagon.scorecardapi.repository.PodRepository;
 import com.decagon.scorecardapi.repository.SquadRepository;
-import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.repository.UserRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
-import com.decagon.scorecardapi.utility.PasswordGenerator;
+import com.decagon.scorecardapi.utility.Generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +67,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         if (userRepository.findByEmail(adminDto.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
         }
-        StringBuilder password = PasswordGenerator.generatePassword(10);
+        StringBuilder password = Generator.generatePassword(10);
         Admin admin = new Admin();
         admin.setFirstName(adminDto.getFirstName());
         admin.setLastName(adminDto.getLastName());
@@ -187,6 +186,45 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public Pod getPod(Long id) {
 
         return podRepository.findById(id).orElseThrow(()-> new PodNotFoundException(String.format("Pod with id %d not found",id)));
+    }
+
+    @Override
+    public APIResponse<?> forgotPassword(ForgetPasswordRequest request) {
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+        else {
+            StringBuilder password = Generator.generateOTP(5);
+            user.get().setUserOTP(passwordEncoder.encode(password));
+            user.get().setUpdateDate(LocalDateTime.now());
+            userRepository.save(user.get());
+            emailService.sendEmail("You can now reset your password for this email " + user.get().getEmail() + " and this token " + password + "\n",
+                    "Password reset", user.get().getEmail());
+            return new APIResponse<>(true, "Verify OTP");
+        }
+    }
+
+    @Override
+    public APIResponse<?> resetPassword(ResetPasswordRequest request) {
+        Optional<User> user = userRepository.findByEmail(request.getEmail());
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+        else {
+            if (passwordEncoder.matches(request.getUserOTP(), user.get().getUserOTP())) {
+                if (LocalDateTime.now().isBefore(user.get().getUpdateDate().plusMinutes(10))){
+                    user.get().setPassword(passwordEncoder.encode(request.getNewPassword()));
+                    user.get().setUserOTP(null);
+                    userRepository.save(user.get());
+                    return new APIResponse<>(true, "Password changed successfully");
+                }else
+                    throw new TokenExpiredException("Token has expired");
+            }
+            else {
+                throw new PasswordNotMatchException("invalid token provided");
+            }
+        }
     }
 
 }
