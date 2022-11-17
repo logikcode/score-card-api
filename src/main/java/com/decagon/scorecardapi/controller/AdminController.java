@@ -31,6 +31,7 @@ public class AdminController {
         } catch (Exception ex) {
             return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
+
     }
 
 
@@ -57,6 +58,12 @@ public class AdminController {
         return new ResponseEntity<>(new APIResponse<>(true, "decadev updated successfully", dev), HttpStatus.CREATED);
 
     }
+    @PutMapping("/update-score/{devId}/weekly-score/{weekId}")
+    public ResponseEntity<APIResponse<?>> updateScore(@PathVariable("devId") Long devId,@PathVariable("weekId") Long weekId, @RequestBody WeeklyScoreDto score) {
+        WeeklyScore devScore = adminService.updateDecadevWeeklyScore(score, devId, weekId);
+        return new ResponseEntity<>(new APIResponse<>(true, "Succesfully updated your score", devScore), HttpStatus.OK);
+    }
+
     @GetMapping("/getScore/{week}/{dev_id}")
     public ResponseEntity<APIResponse<?>> getDevScore(@PathVariable("week")String week, @PathVariable("dev_id")Long dev_id){
         WeeklyScore devScore = adminService.getDevWeeklyScore(week,dev_id);
@@ -67,6 +74,7 @@ public class AdminController {
     public ResponseEntity<APIResponse<?>> getAllDecadevs(@PathVariable("podId") Long podId) {
         List<DecadevDto> decadevs = adminService.getAllDecadevsFromAPod(podId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadevs retrieved successfully", decadevs), HttpStatus.OK);
+
     }
 
 }
