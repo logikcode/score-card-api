@@ -200,7 +200,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             user.get().setUserOTP(passwordEncoder.encode(password));
             user.get().setUpdateDate(LocalDateTime.now());
             userRepository.save(user.get());
-//            System.out.println(password);
             emailService.sendEmail("You can now reset your password for this email " + user.get().getEmail() + " and this token " + password + "\n",
                     "Password reset", user.get().getEmail());
             return new APIResponse<>(true, "Verify OTP");
@@ -229,8 +228,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         }
     }
     @Override
-    public APIResponse<?> changePassword(ChangePasswordRequest request, Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public APIResponse<?> changePassword(ChangePasswordRequest request, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new PasswordNotMatchException("New password and confirm password do not match");
+        }
         if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
             userRepository.save(user);

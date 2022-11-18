@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -45,10 +47,11 @@ public class AuthController {
                 return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
             }
         }
-        @PutMapping("/change-password/{id}")
-        public ResponseEntity<APIResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, @PathVariable ("id") Long id) {
+        @PutMapping("/change-password")
+        public ResponseEntity<APIResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, Principal principal) {
+            String email = principal.getName();
             try {
-                return new ResponseEntity<>(new APIResponse<>(true, "Password changed successfully", superAdminService.changePassword(changePasswordRequest, id)), HttpStatus.OK);
+                return new ResponseEntity<>(new APIResponse<>(true, "Password changed successfully", superAdminService.changePassword(changePasswordRequest, email)), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
             }

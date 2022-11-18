@@ -47,6 +47,6 @@ public interface SuperAdminService {
     APIResponse<?> resetPassword(ResetPasswordRequest request);
 
 
-    APIResponse<?> changePassword(ChangePasswordRequest request, Long id);
+    APIResponse<?> changePassword(ChangePasswordRequest request, String email);
 }
 
