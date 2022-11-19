@@ -1,4 +1,5 @@
 package com.decagon.scorecardapi.service;
+import com.decagon.scorecardapi.dto.ChangePasswordRequest;
 import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
@@ -46,5 +47,6 @@ public interface SuperAdminService {
     APIResponse<?> resetPassword(ResetPasswordRequest request);
 
 
+    APIResponse<?> changePassword(ChangePasswordRequest request, String email);
 }
 

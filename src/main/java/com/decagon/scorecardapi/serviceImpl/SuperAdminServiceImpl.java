@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.serviceImpl;
 
+import com.decagon.scorecardapi.dto.ChangePasswordRequest;
 import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
@@ -224,6 +225,21 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             else {
                 throw new PasswordNotMatchException("invalid token provided");
             }
+        }
+    }
+    @Override
+    public APIResponse<?> changePassword(ChangePasswordRequest request, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new PasswordNotMatchException("New password and confirm password do not match");
+        }
+        if (passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+            return new APIResponse<>(true, "Password changed successfully");
+        }
+        else {
+            throw new PasswordNotMatchException("Old password does not match");
         }
     }
 

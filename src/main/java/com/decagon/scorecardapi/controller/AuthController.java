@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.controller;
 
+import com.decagon.scorecardapi.dto.ChangePasswordRequest;
 import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.ResetPasswordRequest;
 import com.decagon.scorecardapi.dto.requestdto.LoginDto;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,6 +43,15 @@ public class AuthController {
         public ResponseEntity<APIResponse> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
             try {
                 return new ResponseEntity<>(new APIResponse<>(true, "Password reset successfully", superAdminService.resetPassword(resetPasswordRequest)), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+            }
+        }
+        @PutMapping("/change-password")
+        public ResponseEntity<APIResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, Principal principal) {
+            String email = principal.getName();
+            try {
+                return new ResponseEntity<>(new APIResponse<>(true, "Password changed successfully", superAdminService.changePassword(changePasswordRequest, email)), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(new APIResponse(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
             }
