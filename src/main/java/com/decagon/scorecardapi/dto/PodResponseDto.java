@@ -1,6 +1,5 @@
 package com.decagon.scorecardapi.dto;
 
-
 import com.decagon.scorecardapi.model.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,5 +14,4 @@ import java.util.List;
 public class PodResponseDto {
     private  String podName;
     private List<Admin> admin = new ArrayList<>();
-
 }

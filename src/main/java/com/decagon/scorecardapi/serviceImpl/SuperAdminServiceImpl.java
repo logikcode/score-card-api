@@ -1,13 +1,10 @@
 package com.decagon.scorecardapi.serviceImpl;
 
-import com.decagon.scorecardapi.dto.ChangePasswordRequest;
-import com.decagon.scorecardapi.dto.ResetPasswordRequest;
-import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
-import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.dto.*;
+import com.decagon.scorecardapi.dto.responsedto.PodResponseDto;
+import com.decagon.scorecardapi.enums.AssignRole;
 import com.decagon.scorecardapi.model.*;
-import com.decagon.scorecardapi.repository.PodRepository;
-import com.decagon.scorecardapi.repository.StackRepository;
-import com.decagon.scorecardapi.repository.UserRepository;
+import com.decagon.scorecardapi.repository.*;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
@@ -18,7 +15,6 @@ import com.decagon.scorecardapi.exception.ResourceNotFoundException;
 import com.decagon.scorecardapi.exception.SquadAlreadyExistException;
 import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.exception.*;
-import com.decagon.scorecardapi.repository.SquadRepository;
 import com.decagon.scorecardapi.service.EmailService;
 import com.decagon.scorecardapi.service.SuperAdminService;
 import com.decagon.scorecardapi.utility.Generator;
@@ -46,12 +42,45 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     private final StackRepository stackRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final StackTemplateRepository stackTemplateRepository;
 
     @Override
     public List<Pod> listOfPods() {
         return podRepository.findAll();
     }
 
+    @Override
+    public List<PodResponseDto> getAllPodsInAStack(Long stackId) {
+//        String stackName = stackTemplateRepository.findById(stackId)
+//                .orElseThrow(()-> new CustomException("Stack not found")).getStackName();
+
+        Stack stack = stackRepository.findById(stackId)
+                .orElseThrow(()-> new StackNotFoundException("Stack not found"));
+
+        List<Pod> pods = stack.getPods();
+
+        List<PodResponseDto> podResponseDtos = new ArrayList<>();
+        pods.forEach(pod-> {
+            PodResponseDto podResponseDto = new PodResponseDto();
+            podResponseDto.setPodName(pod.getPodName());
+            podResponseDto.setTotalDecadevs(pod.getDecadev().size());
+            podResponseDto.setPodHealth(pod.getPodHealth());
+            System.out.println("----"+pod.getAdmin().size());
+            pod.getAdmin().forEach((admin)->{
+                if(AssignRole.STACK_ASSOCIATE.equals(admin.getAssignRole())){
+                    podResponseDto.setSA(admin.getFirstName()+ " "+admin.getLastName());
+                }
+                else{
+                    podResponseDto.setPa(admin.getFirstName()+ " "+admin.getLastName());
+                }
+            });
+            podResponseDtos.add(podResponseDto);
+        });
+
+        return podResponseDtos;
+
+
+    }
     @Override
     public String removeAdminById(Long id) {
         if (userRepository.findById(id).isEmpty()) {
@@ -64,18 +93,37 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     }
 
     @Override
-    public User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId) {
+    public User CreateAdmin(AdminDto adminDto) {
         if (userRepository.findByEmail(adminDto.getEmail()).isPresent()) {
             throw new CustomException("User email already exist");
         }
+        Squad squad = squadRepository.findById(adminDto.getSquadId()).orElseThrow(()->new SquadNotFoundException("Squad not found"));
+        Stack stack = stackRepository.findById(adminDto.getStackId()).orElseThrow(()-> new StackNotFoundException(" Stack not found"));
+        Pod pod = null;
+       if(adminDto.getPodId() !=  null && adminDto.getPodId() > 0 ){
+           pod = podRepository.findById(adminDto.getPodId()).orElseThrow(()->new PodNotFoundException("pod mot found"));
+       }
         StringBuilder password = Generator.generatePassword(10);
         Admin admin = new Admin();
         admin.setFirstName(adminDto.getFirstName());
         admin.setLastName(adminDto.getLastName());
         admin.setEmail(adminDto.getEmail());
         admin.setRole(adminDto.getRole());
+        admin.setGender(adminDto.getGender());
+        admin.setIsAccountActive(true);
         admin.setPassword(passwordEncoder.encode(password));
         admin.setAssignRole(adminDto.getAssignRole());
+        List<Squad> squads = new ArrayList<>();
+        squads.add(squad);
+        admin.setSquads(squads);
+        List<Stack> stacks = new ArrayList<>();
+        stacks.add(stack);
+        admin.setStacks(stacks);
+        List<Pod> pods = new ArrayList<>();
+        if(pod != null ){
+            pods.add(pod);
+        }
+        admin.setPods(pods);
         emailService.sendEmail("ScoreCard login details " + "password: " + password + " Email: " + admin.getEmail() + "\n",
                 "You have been added as an admin", admin.getEmail());
         return userRepository.save(admin);
@@ -242,6 +290,8 @@ public class SuperAdminServiceImpl implements SuperAdminService {
             throw new PasswordNotMatchException("Old password does not match");
         }
     }
+
+
 
 }
 

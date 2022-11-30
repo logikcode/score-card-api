@@ -1,11 +1,10 @@
 
 package com.decagon.scorecardapi.controller;
 
-import com.decagon.scorecardapi.dto.ResetPasswordRequest;
-import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
 import com.decagon.scorecardapi.dto.StackDto;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.dto.responsedto.PodResponseDto;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.model.*;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/super-admin")
 @RequiredArgsConstructor
 public class SuperAdminController {
     private final SuperAdminService superAdminService;
@@ -35,6 +34,11 @@ public class SuperAdminController {
         return new ResponseEntity<>(allPods,HttpStatus.OK);
     }
 
+    @GetMapping("/pods/{id}")
+    public ResponseEntity<List<PodResponseDto>>getAllPodsInAStack(@PathVariable("id") Long stackId){
+        List<PodResponseDto>allPods = superAdminService.getAllPodsInAStack(stackId);
+        return new ResponseEntity<>(allPods,HttpStatus.OK);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<APIResponse> deleteAdmin(@PathVariable("id") Long id){
         try{
@@ -45,14 +49,11 @@ public class SuperAdminController {
     }
 
 
-    @PostMapping("/create-admin/{squadId}/{stackId}/{podId}")
-    public ResponseEntity<APIResponse<?>> createAdmin(@RequestBody AdminDto adminDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
-        try {
-            User admin = superAdminService.CreateAdmin(adminDto, podId, stackId, squadId);
+    @PostMapping("/create-admin")
+    public ResponseEntity<APIResponse<?>> createAdmin(@RequestBody AdminDto adminDto ) {
+
+            User admin = superAdminService.CreateAdmin(adminDto);
             return new ResponseEntity<>(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(new APIResponse<>(false, ex.getMessage(), null), HttpStatus.BAD_REQUEST);
-        }
     }
 
     @PostMapping("/create-squad")
