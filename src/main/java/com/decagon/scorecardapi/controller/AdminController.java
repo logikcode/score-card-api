@@ -36,9 +36,12 @@ public class AdminController {
 
 
     @PostMapping("/create-decadev/{squadId}/{stackId}/{podId}")
-    public ResponseEntity<APIResponse<?>> createDecadev(@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
-        User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
-        return new ResponseEntity<>(new APIResponse<>(true, "decadev created successfully", dev), HttpStatus.CREATED);
+    public ResponseEntity<APIResponse<?>> createDecadev(@RequestBody DecadevDto decadevDto,
+                                                        @PathVariable("podId") Long podId,
+                                                        @PathVariable("stackId") Long stackId,
+                                                        @PathVariable("squadId") Long squadId) {
+        String response = adminService.createDecadev(decadevDto, podId, stackId, squadId);
+        return new ResponseEntity<>(new APIResponse<>(true, "decadev created successfully", response), HttpStatus.CREATED);
 
     }
 
@@ -52,10 +55,12 @@ public class AdminController {
         }
     }
 
-     @PutMapping("/update-decadev/{squadId}/{stackId}/{podId}")
-    public ResponseEntity<APIResponse<?>> updateDecadev (@RequestBody DecadevDto decadevDto, @PathVariable("podId") Long podId, @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
-        User dev = adminService.createDecadev(decadevDto, podId, stackId, squadId);
-        return new ResponseEntity<>(new APIResponse<>(true, "decadev updated successfully", dev), HttpStatus.CREATED);
+     @PutMapping("/update-decadev/{decadevId}/{podId}/{stackId}/{squadId}")
+    public ResponseEntity<APIResponse<?>> updateDecadev (@RequestBody DecadevDto decadevDto,
+                                                         @PathVariable ("decadevId") Long decadevId , @PathVariable("podId") Long podId,
+                                                         @PathVariable("stackId") Long stackId, @PathVariable("squadId") Long squadId) {
+
+        return new ResponseEntity<>( adminService.updateDecadev(decadevDto, decadevId, podId, stackId, squadId), HttpStatus.CREATED);
 
     }
     @PutMapping("/update-score/{devId}/weekly-score/{weekId}")

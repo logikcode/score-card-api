@@ -1,9 +1,8 @@
 package com.decagon.scorecardapi.serviceImpl;
-import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.dto.PodResponseDto;
+import com.decagon.scorecardapi.dto.PodRequestDto;
 import com.decagon.scorecardapi.exception.CustomException;
 import com.decagon.scorecardapi.exception.ResourceNotFoundException;
-import com.decagon.scorecardapi.exception.UserNotFoundException;
 import com.decagon.scorecardapi.model.Admin;
 import com.decagon.scorecardapi.model.Pod;
 import com.decagon.scorecardapi.model.Stack;
@@ -31,7 +30,7 @@ public class PodServiceImpl implements PodService {
 
     @Override
     public PodResponseDto createPod(Long stackId, PodRequestDto requestDto) {
-        List<Admin> adminList = new ArrayList();
+        List<Admin> adminList = new ArrayList<>();
         Stack stack = stackRepository.findById(stackId).orElseThrow(()->new ResourceNotFoundException("stackname", "id", stackId));
         Admin stackAssociate = adminRepository.findAdminByEmail(requestDto.getStackAssociateByEmail()).orElseThrow(()->new ResourceNotFoundException("stack Associate", "id", stackId));
 
@@ -47,7 +46,25 @@ public class PodServiceImpl implements PodService {
         pod.setStack(stack);
         pod.setPodName(requestDto.getPodName());
         pod.setAdmin(adminList);
-        return modelMapper.map(podRepository.save(pod), PodResponseDto.class);
+        Pod newPod = podRepository.save(pod);
+        List<Pod> stackAssociatePods = stackAssociate.getPods();
+        List<Pod> programAssociatePods = programAssociate.getPods();
+        if(stackAssociatePods == null ){
+            stackAssociatePods = new ArrayList<>();
+        }
+        stackAssociatePods.add(pod);
+        stackAssociate.setPods(stackAssociatePods);
+        adminRepository.save(stackAssociate);
+
+        if(programAssociatePods == null ){
+            programAssociatePods = new ArrayList<>();
+        }
+        programAssociatePods.add(pod);
+        programAssociate.setPods(programAssociatePods);
+        adminRepository.save(programAssociate);
+
+        System.out.println(newPod.getAdmin().size());
+        return modelMapper.map(newPod, PodResponseDto.class);
 
     }
 

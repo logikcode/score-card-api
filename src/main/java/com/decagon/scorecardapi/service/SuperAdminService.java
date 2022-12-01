@@ -1,10 +1,8 @@
 package com.decagon.scorecardapi.service;
-import com.decagon.scorecardapi.dto.ChangePasswordRequest;
-import com.decagon.scorecardapi.dto.ResetPasswordRequest;
-import com.decagon.scorecardapi.dto.ForgetPasswordRequest;
-import com.decagon.scorecardapi.dto.StackDto;
+import com.decagon.scorecardapi.dto.*;
 import com.decagon.scorecardapi.dto.requestdto.AdminDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.dto.responsedto.PodResponseDto;
 import com.decagon.scorecardapi.dto.responsedto.SquadDto;
 import com.decagon.scorecardapi.dto.responsedto.StackResponseDto;
 import com.decagon.scorecardapi.model.Admin;
@@ -22,7 +20,7 @@ public interface SuperAdminService {
 
     String removeAdminById(Long id);
 
-    User CreateAdmin(AdminDto adminDto, Long podId, Long stackId, Long squadId);
+    User CreateAdmin(AdminDto adminDto);
 
     String createSquad(SquadDto squadDto);
 
@@ -48,5 +46,7 @@ public interface SuperAdminService {
 
 
     APIResponse<?> changePassword(ChangePasswordRequest request, String email);
+
+    List<PodResponseDto> getAllPodsInAStack(Long stackId);
 }
 

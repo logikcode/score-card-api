@@ -12,21 +12,22 @@ import java.util.List;
 @DiscriminatorValue(value = "admin")
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "AdminTable")
 public class Admin extends User{
     @Enumerated(EnumType.STRING)
     private AssignRole assignRole;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "admin_squad", referencedColumnName = "id")
+    @JoinTable(name = "admin_squad",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "squad_id")})
     private List<Squad> squads;
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "stack_admin",referencedColumnName = "id")
+    @JoinTable(name = "admin_stack",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "stack_id")})
     private List<Stack> stacks;
     @JsonBackReference
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "admin_pod",referencedColumnName = "id")
+    @JoinTable(name = "admin_pod",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "pod_id")})
     private List<Pod> pods;
 
 
