@@ -2,6 +2,7 @@ package com.decagon.scorecardapi.serviceImpl;
 
 import com.decagon.scorecardapi.dto.WeeklyScoreDto;
 import com.decagon.scorecardapi.dto.DecadevDto;
+import com.decagon.scorecardapi.dto.responsedto.DevDataResponse;
 import com.decagon.scorecardapi.enums.Role;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
 import com.decagon.scorecardapi.exception.*;
@@ -25,6 +26,7 @@ import com.decagon.scorecardapi.utility.Generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +70,33 @@ public class AdminServiceImpl implements AdminService {
             throw new CustomException("Decadev score shouldn't be less than zero(0) or greater than 100 ");
         }
 
+        //modified by Emmanuel
+
         Decadev dev = decadevRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("No Decadev with the ID: " + id));
+        User userDev = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("No Decadev with the ID: " + id));
+
         if (scoreRepository.findWeeklyScoreByWeekAndDecadev(score.getWeek(), dev) != null) {
             throw new CustomException("Weekly score already populated");
         }
+        WeeklyScore devWeeklyScore = new WeeklyScore();
+        double result = CalculateScores.weeklyCumulative(score.getWeeklyTask(),
+                score.getAlgorithmScore(), score.getQaTest(), score.getAgileTest(), score.getWeeklyAssessment());
+        devWeeklyScore.setAlgorithmScore(score.getAlgorithmScore());
+        devWeeklyScore.setWeeklyAssessment(score.getWeeklyAssessment());
+        devWeeklyScore.setQaTest(score.getQaTest());
+        devWeeklyScore.setAgileTest(score.getAgileTest());
+        devWeeklyScore.setWeeklyTask(score.getWeeklyTask());
+        devWeeklyScore.setWeek(score.getWeek());
+
+        //devWeeklyScore.setDecadev(dev);
+        devWeeklyScore.setDecadev((Decadev) userDev);
+        devWeeklyScore.setCumulativeScore(result);
+        return scoreRepository.save(devWeeklyScore);
+    }
+
+    private WeeklyScore createAndSaveWeekScore(WeeklyScoreDto score, Decadev dev){
         WeeklyScore devWeeklyScore = new WeeklyScore();
         double result = CalculateScores.weeklyCumulative(score.getWeeklyTask(),
                 score.getAlgorithmScore(), score.getQaTest(), score.getAgileTest(), score.getWeeklyAssessment());
@@ -87,21 +111,25 @@ public class AdminServiceImpl implements AdminService {
         return scoreRepository.save(devWeeklyScore);
     }
 
-
-
     @Override
-    public WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long devId,Long weekId) {
-        Optional<Decadev> dev = decadevRepository.findById(devId);
-        if(dev.isEmpty()){
+   public WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, /*Long devId*/ Long devId, Long weekId) {
+        //Optional<Decadev> dev = decadevRepository.findById(devId);
+        //Decadev dev = decadevRepository.findByDecadevId(devId);
+        Decadev dev = (Decadev) userRepository.findById(devId).orElseThrow(()->new UserNotFoundException("User not found"));
+        if(/*dev.isEmpty()*/ dev == null){
             throw new UserNotFoundException("User not found");
         }
 
-        Optional<WeeklyScore> weeklyScore = this.fetchDecadevWeeklyScore(dev.get(),weekId);
-        if(weeklyScore.isEmpty()){
-            throw new ScoresNotFoundException("weekly scores not found");
+       // Optional<WeeklyScore> weeklyScore = this.fetchDecadevWeeklyScore(/*dev.get()*/ dev,weekId);
+        WeeklyScore weeklyScore1 = scoreRepository.getByWeekAndDecadev_Id(String.valueOf(weekId), devId);
+        if(/*weeklyScore.isEmpty()*/ weeklyScore1 == null){
+            WeeklyScore savedScore = createAndSaveWeekScore(score, dev);
+            //throw new ScoresNotFoundException("weekly scores not found");
+            return savedScore;
         }
 
-        WeeklyScore devWeeklyScore = weeklyScore.get();
+        WeeklyScore devWeeklyScore = weeklyScore1; /*weeklyScore.get();*/
+
         devWeeklyScore.setAlgorithmScore(score.getAlgorithmScore());
         devWeeklyScore.setAgileTest(score.getAgileTest());
         devWeeklyScore.setQaTest(score.getQaTest());
@@ -170,9 +198,10 @@ public class AdminServiceImpl implements AdminService {
     }
     @Override
     public WeeklyScore getDevWeeklyScore(String week, Long id){
-        Decadev dev = decadevRepository.findById(id).orElseThrow(
+        Decadev dev = (Decadev) userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("No Decadev with the ID: " + id));
-        return scoreRepository.findWeeklyScoreByWeekAndDecadev(week, dev);
+        //return scoreRepository.findWeeklyScoreByWeekAndDecadev(week, dev);
+        return scoreRepository.getByWeekAndDecadev_Id(week, dev.getId());
     }
 
 
@@ -180,6 +209,59 @@ public class AdminServiceImpl implements AdminService {
     public List<DecadevDto> getAllDecadevsFromAPod(Long podId) {
         Pod pod = podRepository.findById(podId).orElseThrow(()-> new PodNotFoundException("Decadev Not found"));
         return pod.getDecadev().stream().map(DecadevDto::getDecadevFromAPodDto).collect(Collectors.toList());
+    }
+
+    public List<DevDataResponse> retrieveWeekScoreForAllDevInAPod(Long podId, String week ){
+        Pod pod = podRepository.findById(podId).orElseThrow(()-> new PodNotFoundException("Decadev Not found"));
+        List<Decadev> devs = pod.getDecadev();
+        System.out.println(" TOTAL DEVS IN POD "+devs.size());
+        List<DevDataResponse> result = new ArrayList<>();
+
+        for (Decadev dev : devs){
+            WeeklyScore devScoreForTheWeek  = getDevWeeklyScore(week, dev.getId());
+
+            if (devScoreForTheWeek != null) {
+
+                DevDataResponse response = new DevDataResponse();
+                response.setId(dev.getId());
+                response.setFirstName(dev.getFirstName());
+                response.setLastName(dev.getLastName());
+                response.setAlgorithmScore(devScoreForTheWeek.getAlgorithmScore());
+                response.setWeeklyAssessment(devScoreForTheWeek.getWeeklyAssessment());
+                response.setQaTest(devScoreForTheWeek.getQaTest());
+                response.setAgileTest(devScoreForTheWeek.getAgileTest());
+                response.setWeek(devScoreForTheWeek.getWeek());
+                response.setCumulativeScore(devScoreForTheWeek.getCumulativeScore());
+                response.setWeeklyTask(devScoreForTheWeek.getWeeklyTask());
+                result.add(response);
+            } else {
+            DevDataResponse response = new DevDataResponse();
+            response.setId(dev.getId());
+            response.setFirstName(dev.getFirstName());
+            response.setLastName(dev.getLastName());
+            response.setAlgorithmScore(0);
+            response.setWeeklyAssessment(0);
+            response.setQaTest(0);
+            response.setAgileTest(0);
+            response.setWeek("");
+            response.setCumulativeScore(0);
+            response.setWeeklyTask(0);
+            result.add(response);}
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public String deleteDevWeeklyScore(Long devId, String weekId){
+        Decadev dev = (Decadev) userRepository.findById(devId).orElseThrow(()->new UserNotFoundException("User not found"));
+        if( dev == null){
+            throw new UserNotFoundException("User not found");
+        }
+
+        scoreRepository.deleteByWeekAndDecadev_Id(weekId, devId);
+
+        return "Successfully Deleted";
     }
 
 }
