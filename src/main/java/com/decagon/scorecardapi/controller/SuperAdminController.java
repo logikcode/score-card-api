@@ -53,7 +53,7 @@ public class SuperAdminController {
     public ResponseEntity<APIResponse<?>> createAdmin(@RequestBody AdminDto adminDto ) {
 
             User admin = superAdminService.CreateAdmin(adminDto);
-            return new ResponseEntity<>(new APIResponse<>(true, "Admin created successfully", admin), HttpStatus.CREATED);
+            return new ResponseEntity<>(new APIResponse<>(true, "Admin created successfully", "Success"), HttpStatus.CREATED);
     }
 
     @PostMapping("/create-squad")
