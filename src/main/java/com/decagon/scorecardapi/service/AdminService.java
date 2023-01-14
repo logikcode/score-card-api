@@ -1,5 +1,6 @@
 package com.decagon.scorecardapi.service;
 import com.decagon.scorecardapi.dto.WeeklyScoreDto;
+import com.decagon.scorecardapi.dto.responsedto.DevDataResponse;
 import com.decagon.scorecardapi.model.WeeklyScore;
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
@@ -16,7 +17,7 @@ public interface AdminService {
 
    void deleteDecadev(Long decadevId);
 
-    WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, Long Id, Long weekId);
+    WeeklyScore updateDecadevWeeklyScore(WeeklyScoreDto score, /*Long Id*/Long Id, Long weekId);
 
 
     String createDecadev(DecadevDto dev, Long podId, Long stackId, Long squadId);
@@ -24,4 +25,7 @@ public interface AdminService {
 
     WeeklyScore getDevWeeklyScore(String week, Long id);
     List<DecadevDto> getAllDecadevsFromAPod(Long podId);
+    List<DevDataResponse> retrieveWeekScoreForAllDevInAPod(Long podId, String week );
+
+    public String deleteDevWeeklyScore(Long devId, String weekId);
 }
