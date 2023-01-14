@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DecadevDto {
+    // Modified by Emmanuel to include id
+    private Long id;
     private String firstName;
     private String lastName;
     private Gender gender;
@@ -20,6 +22,7 @@ public class DecadevDto {
 
     public static DecadevDto getDecadevFromAPodDto(Decadev decadev) {
         DecadevDto decadevDto = new DecadevDto();
+        decadevDto.setId(decadev.getId());
         decadevDto.setFirstName(decadev.getFirstName());
         decadevDto.setLastName(decadev.getLastName());
         decadevDto.setGender(decadev.getGender());
