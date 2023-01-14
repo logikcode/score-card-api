@@ -8,5 +8,10 @@ import java.util.List;
 
 public interface WeeklyScoreRepository extends JpaRepository<WeeklyScore,Long> {
     WeeklyScore findWeeklyScoreByWeekAndDecadev(String week, Decadev decadev);
+    // added by Emmanuel
+    WeeklyScore getWeeklyScoreByWeekAndDecadev_Id (String week, Long id);
+    WeeklyScore getByWeekAndDecadev_Id(String week, Long id);
+     void deleteByWeekAndDecadev_Id(String week, Long id);
+
     List<WeeklyScore> findWeeklyScoresByDecadev(Decadev decadev);
 }
