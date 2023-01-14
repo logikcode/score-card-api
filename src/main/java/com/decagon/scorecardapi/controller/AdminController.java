@@ -3,6 +3,7 @@ package com.decagon.scorecardapi.controller;
 import com.decagon.scorecardapi.dto.WeeklyScoreDto;
 import com.decagon.scorecardapi.dto.DecadevDto;
 import com.decagon.scorecardapi.dto.responsedto.APIResponse;
+import com.decagon.scorecardapi.dto.responsedto.DevDataResponse;
 import com.decagon.scorecardapi.model.WeeklyScore;
 import com.decagon.scorecardapi.model.User;
 import com.decagon.scorecardapi.service.AdminService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,7 +66,9 @@ public class AdminController {
 
     }
     @PutMapping("/update-score/{devId}/weekly-score/{weekId}")
-    public ResponseEntity<APIResponse<?>> updateScore(@PathVariable("devId") Long devId,@PathVariable("weekId") Long weekId, @RequestBody WeeklyScoreDto score) {
+    public ResponseEntity<APIResponse<?>> updateScore(@PathVariable("devId") /*Long devId*/ Long devId,@PathVariable("weekId") Long weekId, @RequestBody WeeklyScoreDto score) {
+        System.out.println("DEV ID"+devId);
+        System.out.println(" WEEK ID "+weekId);
         WeeklyScore devScore = adminService.updateDecadevWeeklyScore(score, devId, weekId);
         return new ResponseEntity<>(new APIResponse<>(true, "Succesfully updated your score", devScore), HttpStatus.OK);
     }
@@ -80,6 +84,17 @@ public class AdminController {
         List<DecadevDto> decadevs = adminService.getAllDecadevsFromAPod(podId);
         return new ResponseEntity<>(new APIResponse<>(true, "decadevs retrieved successfully", decadevs), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/retrieve-weekly-scores/{podId}/{week}")
+    public List<DevDataResponse> getWeekScoreForAllDevInAPod(@PathVariable Long podId, @PathVariable String week){
+        return adminService.retrieveWeekScoreForAllDevInAPod(podId,week);
+    }
+
+
+    @DeleteMapping("/delete-weekly-score/{devId}/{week}")
+    public String deleteDevWeeklyScore(@PathVariable Long devId, @PathVariable String week){
+        return  adminService.deleteDevWeeklyScore(devId, week);
     }
 
 }
